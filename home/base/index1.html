@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<script>
+
+var firstName, lastName, nextName, age, ageDays, futureAge, gender, isPensioner; 
+var retirementAgeMale = 63;
+var retirementAgeFemale = 58;
+
+var firstName = prompt("Введите вашу фамилию");
+var lastName = prompt("Введите ваше имя");
+var nextName = prompt("Введите ваше отчество");
+
+var age = parseInt(prompt("Введите ваш возраст в годах:"));
+if(isNaN(age))
+    console.log("Вы ввели некорректное число!");
+else
+    console.log("Ваш возраст в годах")
+
+var m = "";
+var gender = gender ? "мужской" : "женский";
+gender = confirm("Ваш пол - мужской?"); 
+
+
+
+m += 
+    "Ваше ФИО: " + lastName + " " + firstName + " " + nextName + "\n" +
+    "Ваш возраст в годах: " + age + "\n" +
+    "Ваш возраст в днях: " + ageInDays + "\n" +
+    "Через 5 лет вам будет: " + futureAge + "\n" +
+    "Ваш пол: " + gender + "\n" +
+    "Вы на пенсии: " + pensionStatus;
+
+alert(m);
+
+
+</script>
+
+</body>
+</html>

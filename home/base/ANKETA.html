@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета</title>
+</head>
+<body>
+
+<script>
+
+var nameRegex = /^[а-яА-ЯёЁa-zA-Z\- ]+$/; 
+var age, lastName, firstName, middleName, isMale;
+var retirementAgeMale = 63;
+var retirementAgeFemale = 58;
+var message = "";
+
+while (true) {
+    lastName = prompt("Введите вашу фамилию:"); 
+    if (!lastName || !nameRegex.test(lastName)) {  
+        message += "Некорректная фамилия. Разрешены только буквы и дефисы.\n";
+    } else {
+        break;
+    }
+}
+
+while (true) {
+    firstName = prompt("Введите ваше имя:");
+    if (!firstName || !nameRegex.test(firstName)) {
+        message += "Некорректное имя. Разрешены только буквы и дефисы.\n"; 
+    } else {
+        break; 
+    }
+}
+
+while (true) {
+    middleName = prompt("Введите ваше отчество:");
+    if (!middleName || !nameRegex.test(middleName)) { 
+        message += "Некорректное отчество. Разрешены только буквы и дефисы.\n"; 
+    } else {
+        break;
+    }
+}
+
+while (true) {
+    age = prompt("Введите ваш возраст в годах:");
+    age = parseInt(age, 10); 
+
+    if (isNaN(age) || age <= 0) {
+        message += "Возраст должен быть целым числом больше нуля.\n";
+    } else {
+        break; 
+    }
+}
+
+isMale = confirm("Ваш пол - мужской?");
+
+var ageInDays = age * 365; 
+var futureAge = age + 5; 
+
+var isPensioner = (isMale && age >= 63) || (!isMale && age >= 58);
+
+var gender = isMale ? "мужской" : "женский";
+var pensionStatus = isPensioner ? "да" : "нет";
+
+    message += 
+    // `Ваше ФИО: ${lastName} ${firstName} ${middleName}\n`
+    "Ваше ФИО: " + lastName + " " + firstName + " " + middleName + "\n" +
+    "Ваш возраст в годах: " + age + "\n" +
+    "Ваш возраст в днях: " + ageInDays + "\n" +
+    "Через 5 лет вам будет: " + futureAge + "\n" +
+    "Ваш пол: " + gender + "\n" +
+    "Вы на пенсии: " + pensionStatus;
+
+alert(message);
+
+// var allerts = [];
+// allerts.push('Ошибка 1');
+// allerts.push('Ошибка 2');
+// allerts.push('Ошибка 3');
+// allerts.push('Ошибка 4');
+// allerts.push('Ошибка 5');
+
+// alert(allerts.join('\n'));
+
+</script>
+
+</body>
+</html>
