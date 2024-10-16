@@ -15,43 +15,35 @@ var retirementAgeMale = 63;
 var retirementAgeFemale = 58;
 var message = "";
 
-while (true) {
+do {
     lastName = prompt("Введите вашу фамилию:"); 
     if (!lastName || !nameRegex.test(lastName)) {  
         message += "Некорректная фамилия. Разрешены только буквы и дефисы.\n";
-    } else {
-        break;
     }
-}
+} while (!lastName || !nameRegex.test(lastName));
 
-while (true) {
+do {
     firstName = prompt("Введите ваше имя:");
     if (!firstName || !nameRegex.test(firstName)) {
         message += "Некорректное имя. Разрешены только буквы и дефисы.\n"; 
-    } else {
-        break; 
     }
-}
+} while (!firstName || !nameRegex.test(firstName));
 
-while (true) {
+do {
     middleName = prompt("Введите ваше отчество:");
     if (!middleName || !nameRegex.test(middleName)) { 
         message += "Некорректное отчество. Разрешены только буквы и дефисы.\n"; 
-    } else {
-        break;
     }
-}
+} while (!middleName || !nameRegex.test(middleName));
 
-while (true) {
+do {
     age = prompt("Введите ваш возраст в годах:");
     age = parseInt(age, 10); 
 
     if (isNaN(age) || age <= 0) {
         message += "Возраст должен быть целым числом больше нуля.\n";
-    } else {
-        break; 
     }
-}
+} while (isNaN(age) || age <= 0);
 
 isMale = confirm("Ваш пол - мужской?");
 
@@ -63,7 +55,7 @@ var isPensioner = (isMale && age >= 63) || (!isMale && age >= 58);
 var gender = isMale ? "мужской" : "женский";
 var pensionStatus = isPensioner ? "да" : "нет";
 
-    message += 
+message += 
     // `Ваше ФИО: ${lastName} ${firstName} ${middleName}\n`
     "Ваше ФИО: " + lastName + " " + firstName + " " + middleName + "\n" +
     "Ваш возраст в годах: " + age + "\n" +
@@ -84,6 +76,11 @@ alert(message);
 // alert(allerts.join('\n'));
 
 </script>
-
 </body>
 </html>
+
+
+
+
+
+
