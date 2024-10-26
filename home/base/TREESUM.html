@@ -6,6 +6,32 @@
     <title>Document</title>
 </head>
 <body>
+
+    <script>
+
+let array=[ 5, 7, 
+        [ 4, [2], 8, [1,3], 2 ], 
+        [ 9, [ ] ], 
+        1, 8
+      ]
+
+function treeSum(arr) {
+    let  sum = 0;
+
+
+    for (let element of arr) {
+        if (typeof element === 'number') {
+            sum += element;
+        } else if (Array.isArray(element)) {
+            sum += treeSum(element);
+        }
+    }
+    return sum;
+}
+
+console.log(treeSum(array));
+
+    </script>
     
 </body>
 </html>
