@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+function removeLeadingTrailingSpaces(s) {
+
+    let startIndex = 0;
+    while (startIndex < s.length && s[startIndex] === ' ') {
+        startIndex++;
+    }
+
+    let endIndex = s.length - 1;
+    while (endIndex >= 0 && s[endIndex] === ' ') {
+        endIndex--;
+    }
+
+    if (startIndex > endIndex) {
+        return "";
+    }
+
+    return s.slice(startIndex, endIndex + 1);
+}
+
+const userInput = prompt("Введите строку: ");
+
+const result = removeLeadingTrailingSpaces(userInput);
+
+console.log(`|${result}|`);
+
+    </script>
+</body>
+</html>
