@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<button onclick="addCountry()">add</button>
+<button onclick="updateCountry()">update</button>
+<button onclick="deletCountry()">delete</button>
+<button onclick="showCountries()">show</button>
+
+<script>
+
+function Countries(){
+    const self = this;
+
+    const dataBase = {
+        'Belarus': 'Minsk',
+        'Russian': 'Moscow'
+    }
+
+    self.setCountry = function(country, capital){
+        dataBase[country] = capital
+    }
+
+    self.getCountries = function(){
+        return dataBase;
+    }
+
+    self.update = function(deletedCountry, newCountry, newCapital){
+        delete dataBase[deletedCountry];
+        dataBase[newCountry] = newCapital
+    }
+
+    self.deletedCountries = function(country){
+        delete dataBase[country]
+    }
+}
+
+const countries = new Countries();
+
+
+function addCountry(){
+const country = prompt('Enter country');
+const capital = prompt('Enter capital');
+
+countries.setCountry(country, capital);
+}
+
+function showCountries(){
+    const countriesData = countries.getCountries()
+    let result = '';
+
+    for(let country in countriesData){
+        result+=`Country: ${country} - capital: ${countriesData[country]} \n`
+    }
+
+    alert(result)
+}
+
+function deletCountry(){
+    const country = prompt('Enter country')
+
+    countries.deletedCountries(country)
+
+}
+
+function updateCountry(){
+    const updateCountry = promt('Enter update country');
+    const country = promt('Enter country');
+    const capital = promt('Enter capital');
+
+countries.update(updateCountry, country, capital)
+
+}
+
+</script>
+
+
+</body>
+</html>

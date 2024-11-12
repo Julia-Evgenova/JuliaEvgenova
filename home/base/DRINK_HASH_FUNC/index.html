@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Хранилище рецептов напитков</h1>
+
+    <div class="buttons">
+        <button onclick="addDrink()">Ввод информации о напитке</button>
+        <button onclick="getDrink()">Получение информации о напитке</button>
+        <button onclick="deleteDrink()">Удаление информации о напитке</button>
+        <button onclick="listDrinks()">Перечень всех напитков</button>
+    </div>
+
+    <div class="output"></div>
+
+    <script>
+
+        function HashStorageFunc() {
+            const self = this;
+            let storage = {};  //приватное хранилище
+
+            //добавление нового значения по ключу
+            self.addValue = function (key, value) {
+                storage[key] = value;
+            };
+
+            //получениие
+            self.getValue = function (key) {
+                if (key in storage) {
+                    return storage[key];
+                } else {
+                    return undefined;
+                }
+            };
+
+            self.deleteValue = function (key) {
+                if (storage.hasOwnProperty(key)) {
+                    delete storage[key];
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            //получение всех ключей
+            self.getKeys = function () {
+                return Object.keys(storage);
+            };
+        }
+
+        let drinkStorage = new HashStorageFunc(); //создаем хранилище рецептов напитков на основе HashStorageFunc
+
+        //добавления напитка в хранилище
+        function addDrink() {
+            let name = prompt('Введите название напитка');
+            let isAlcoholic = prompt('Напиток алкогольный? (да/нет):').toLowerCase() === 'да';
+            let recipe = prompt('Введите рецепт приготовления:');
+
+            if (name && recipe) {
+                drinkStorage.addValue(name, {
+                    alcoholic: isAlcoholic ? "да" : "нет",
+                    recipe: recipe
+                });
+                alert("Информация о напитке сохранена.");
+            }
+        }
+
+        function getDrink() {
+            let name = prompt('Введите название напитка для поиска');
+            let drink = drinkStorage.getValue(name);
+
+            if (drink) {
+                alert(`напиток: ${name} 
+                алкогольный: ${drink.alcoholic}
+                рецепт приготовления: ${drink.recipe}`);
+            } else {
+                alert(`Напиток  "${name}" не найден. `);
+            }
+        }
+
+        function deleteDrink() {
+            let name = prompt('Введите название напитка для удаления');
+            let success = drinkStorage.deleteValue(name);
+        }
+
+        function listDrinks() {
+            let drinks = drinkStorage.getKeys();
+            if (drinks.length > 0) {
+                alert("Список напитков в хранилище:\n" + drinks.join(", "));
+            } else {
+                alert("В хранилище напитков пусто.");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
