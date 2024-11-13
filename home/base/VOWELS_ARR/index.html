@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        let vowels = 'аеёиоуыэюяАЕЁИОУЫЭЮЯ';
+
+        function countVowelsForEach(text) {
+
+            let count = 0;
+
+            text.split('').forEach(function (char) {
+                if (vowels.indexOf(char) !== -1) {
+                    count++;
+                }
+            });
+            return count;
+        }
+
+
+        function countVowelsFilter(text) {
+
+            return text.split('').filter(function (char) {
+                return vowels.indexOf(char) !== -1;
+            }).length;
+        }
+
+        function countVowelsReduce(text) {
+
+            return text.split('').reduce(function (count, char) {
+                if (vowels.indexOf(char) !== -1) {
+                    return count + 1;
+                }
+                return count;
+            }, 0);
+        }
+
+        let userInput = prompt("Введите строку:");
+
+
+        console.log("Количество русских гласных (метод forEach):", countVowelsForEach(userInput));
+        console.log("Количество русских гласных (метод filter):", countVowelsFilter(userInput));
+        console.log("Количество русских гласных (метод reduce):", countVowelsReduce(userInput));
+
+    </script>
+
+</body>
+
+</html>
