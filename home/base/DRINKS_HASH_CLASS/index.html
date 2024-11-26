@@ -8,7 +8,6 @@
 </head>
 
 <body>
-
     <h1>Хранилище рецептов напитков</h1>
 
     <div class="buttons">
@@ -22,40 +21,39 @@
 
     <script>
 
-        function HashStorageFunc() {
-            const self = this;
-            let storage = {};  //приватное хранилище
+        class HashStorageClass {
+            constructor() {
+                this.storage = {};
+            }
 
-            //добавление нового значения по ключу
-            self.addValue = function (key, value) {
-                storage[key] = value;
-            };
+            addValue(key, value) {
+                this.storage[key] = value;
+            }
 
-            //получение значения по ключу
-            self.getValue = function (key) {
-                if (key in storage) {
-                    return storage[key];
+            getValue(key) {
+                if (key in this.storage) {
+                    return this.storage[key];
                 } else {
                     return undefined;
                 }
-            };
+            }
 
-            self.deleteValue = function (key) {
-                if (storage.hasOwnProperty(key)) {
-                    delete storage[key];
+
+            deleteValue(key) {
+                if (this.storage.hasOwnProperty(key)) {
+                    delete this.storage[key];
                     return true;
                 } else {
                     return false;
                 }
-            };
+            }
 
-            //получение всех ключей (списка)
-            self.getKeys = function () {
-                return Object.keys(storage);
-            };
+            getKeys() {
+                return Object.keys(this.storage);
+            }
         }
 
-        let drinkStorage = new HashStorageFunc(); //создаем хранилище рецептов напитков на основе HashStorageFunc
+        let drinkStorage = new HashStorageClass();
 
         //добавления напитка в хранилище
         function addDrink() {
@@ -98,6 +96,7 @@
                 alert("В хранилище напитков пусто.");
             }
         }
+
     </script>
 
 </body>

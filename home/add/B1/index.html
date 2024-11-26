@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+function getCentury(year) {
+    return Math.ceil(year / 100); 
+    //(year + 99) / 100 | 0 + 1;
+    
+}
+
+const year = prompt("Введите год:");
+
+const century = getCentury(Number(year));
+alert(`${year} год - ${century} век.`);
+
+    </script>
+</body>
+</html>
