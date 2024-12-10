@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        function buildWrapper(tagName) {
+
+            function escapeHTML(text) {
+                const mnemonics = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '\'': '&apos;',
+                    '"': '&quot;'
+                };
+                return text.replace(/[&<>'"]/g, char => mnemonics[char]);
+            }
+
+            return function (text) {
+                const escapedText = escapeHTML(text);
+                return `<${tagName}>${escapedText}</${tagName}>`;
+            };
+        }
+
+        let wrapH1 = buildWrapper("H1"); // ф-я для оборачивания текста в тег H1
+        let wrapP = buildWrapper("P");   // ф-я для оборачивания текста в тег P
+
+        console.log(wrapH1("СТИХИ"));
+        console.log(wrapP("Однажды в студёную зимнюю пору"));
+        console.log(wrapP("Вкусные M&M's"));
+
+    </script>
+
+</body>
+
+</html>

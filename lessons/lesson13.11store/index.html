@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Store</title>
 
     <style>
         body {
@@ -17,6 +17,7 @@
         .wrap {
             display: flex;
             padding: 20px;
+            flex-flow: wrap;
         }
 
         .car-color {
@@ -41,13 +42,18 @@
             margin-left: 50px;
             margin-top: 50px;
         }
-        .fieldset{
+
+        .form-container input {
+            border-color: #212931;
+        }
+
+        .fieldset {
             width: 500px;
             border: 2px solid black;
-            border-radius: ;
-
+            border-radius: 10px;
+            padding: 10px;
+            margin-left: 50px;
         }
-    
     </style>
 </head>
 
@@ -55,55 +61,60 @@
 
     <div class="form-container">
         <div class="mb-3">
-            <label for="price" class="form-label">brand</label>
-            <input type="text" class="color" id="form-control" id="imgUrl">
+            <label for="brand" class="form-label">brand</label>
+            <input type="text" name="brand" class="form-control" id="brand">
         </div>
+
+        <div class="mb-3">
+            <label for="model" class="form-label">model</label>
+            <input type="text" name="model" class="form-control" id="model">
+        </div>
+
+        <div class="mb-3">
+            <label for="color" class="form-label">color</label>
+            <input type="text" name="color" class="form-control" id="color">
+        </div>
+
+        <div class="mb-3">
+            <label for="imgUrl" class="form-label">brand</label>
+            <input type="text" name="imgUrl" class="form-control" id="imgUrl">
+        </div>
+
         <div class="mb-3">
             <label for="price" class="form-label">brand</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <input type="text" name="price" class="form-control" id="price">
         </div>
 
-        <select class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
+        <div class="mb-3">
+            <label for="year" class="form-label">year</label>
+            <input type="text" name="year" class="form-control" id="year">
+        </div>
 
-        <br>
-        brand
-        <input type="text" name="=brand"><br><br>
-        model
-        <input type="text" name="=model"><br><br>
-        color
-        <input type="color" name="=color"><br><br>
-        imgUrl
-        <input type="text" name="=imgUrl"><br><br>
-        price
-        <input type="number" name="=price"><br><br>
-        year
-        <input type="number" name="=year" min="1990" max="2024"><br><br>
-        transmissionType
-        <select name="=transmissionType">
+        <select class="form-select" name="transmissionType" aria-label="transmissionType">
+            <option selected>transmissionType</option>
             <option value="variator">variator</option>
             <option value="robot">robot</option>
             <option value="automatic">automatic</option>
-        </select><br>
+        </select>
+        <br>
+
         <button class="btn btn-primary" onclick="addCar()">add</button>
-        <hr>
+    </div>
 
-        <fieldset class="fieldset">
-            <legend></legend>
-        <label for="customRange3" class="form-label">Example range</label>
-<input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3">
+    <fieldset class="fieldset">
+        <legend>filter by price</legend>
+        <label for="filterByPrice" class="form-label">>0 $</label>
+        <input type="range" class="form-range" min="10000" max="200000" step="1000" id="filterByPrice">
+    </fieldset>
 
-</fieldset>
-
-        <hr>
-rice
-<button class="sortUp">up</button>
-<button class="sortDown"></button>
-
+    <hr>
+    rice
+    <button class="sortUp">up</button>
+    <button class="sortDown">down</button>
+    <button class="sortBrandUp">Brand A-Z</button>
+    <button class="sortBrandDown">Brand Z-A</button>
+    <button class="sortYearUp">Year Up</button>
+    <button class="sortYearDown">Year Down</button>
     <div class="wrap">
         <!-- <div class="card" style="width: 18rem;">
             <img src="img/IMG_0340.JPG" alt="car" class="card-img-top">
@@ -120,14 +131,13 @@ rice
         crossorigin="anonymous"></script>
     <script>
 
-
         const cars = [
             {
-                brand: "audi",
+                brand: "Audi",
                 model: "rs-7",
                 color: "blue",
                 imgUrl: "img/2024_audi_rs-7_sedan_performance_fq_oem_1_1600.jpg.avif",
-                price: "650000",
+                price: "190000",
                 year: "2024"
             },
             {
@@ -135,14 +145,40 @@ rice
                 model: "c8",
                 color: "red",
                 imgUrl: "img/IMG_0340.JPG",
-                price: "450000",
+                price: "80000",
                 year: "2023"
+            },
+            {
+                brand: "Tesla",
+                model: "Tesla Model S Plaid",
+                color: "red",
+                imgUrl: "img/2-9.jpg",
+                price: "90000",
+                year: "2023"
+            },
+            {
+                brand: "Audi",
+                model: "q5",
+                color: "#33d7d4",
+                imgUrl: "img/500x_audi_q5_g15720.jpg",
+                price: "15000",
+                year: "1995"
+            },
+            {
+                brand: "Audi",
+                model: "q5",
+                color: "#33d7d4",
+                imgUrl: "img/500x_audi_q5_g15720.jpg",
+                price: "15000",
+                year: "1995"
             }
-        ]
+        ];
 
         const wrap = document.querySelector('.wrap');
         const filterByPrice = document.querySelector('[for=filterByPrice]');
-        const filterByInput = document.querySelector('[for=filterByInput]');
+        const filterByInput = document.querySelector('[for=filterByPrice]');
+        const sortUp = document.querySelector('.sortUp');
+        const sortDown = document.querySelector('.sortDown');
 
 
         const addCar = () => {
@@ -188,9 +224,51 @@ rice
         //events
 
         filterByInput.addEventListener('input', (e) => {
-            filterByPriceLabel.innerHTML = `$e.target.value $`
-            const filteredCars = cars.filter(car => parseInt(car.p) )
+            filterByPriceLabel.innerHTML = `${e.target.value} $`
+            const filteredCars = cars.filter(car => parseInt(car.price) <= parseInt(e.target.value))
+
+            render(filteredCars);
         })
+
+        // Сортировка автомобилей по цене (по возрастанию)
+        sortUp.addEventListener('click', () => {
+            cars.sort((a, b) => a.price - b.price);
+            render(cars);
+        })
+
+        // Сортировка автомобилей по цене (по убыванию)
+        sortDown.addEventListener('click', () => {
+            cars.sort((a, b) => b.price - a.price);
+
+            render(cars);
+        })
+
+
+
+        // Cортировки по бренду (по возрастанию)
+        document.querySelector('.sortBrandUp').addEventListener('click', () => {
+            cars.sort((a, b) => a.brand.localeCompare(b.brand));
+
+            render(cars);
+        });
+
+        // Cортировка по бренду по бренду по убыванию
+        document.querySelector('.sortBrandDown').addEventListener('click', () => {
+            cars.sort((a, b) => b.brand.localeCompare(a.brand));
+            render(cars);
+        });
+
+        // сортировка по году по возрастанию
+        document.querySelector('.sortYearUp').addEventListener('click', () => {
+            cars.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+            render(cars);
+        });
+
+        document.querySelector('.sortYearDown').addEventListener('click', () => {
+            cars.sort((a, b) => parseInt(b.year) - parseInt(a.year));
+            render(cars);
+        });
+
 
         /*let number = 6;
                 if (number % 2 === 0 ) {
