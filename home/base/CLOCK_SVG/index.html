@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock DOM</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            width: 205px;
+        }
+
+        .input-container input,
+        .input-container button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #clock-container {
+            position: relative;
+        }
+
+        #digital-clock {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 25%;
+            font-size: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="input-container">
+        <input id="clock-diameter" type="number" min="200" max="800" placeholder="Диаметр (200-800)">
+        <button id="build-clock">Построить часы</button>
+    </div>
+    <div id="clock-container" style="display: none;">
+        <div id="digital-clock"></div>
+        <svg id="clock-svg"></svg>
+    </div>
+    <script>
+        const SECOND_HAND_RATIO = 0.9; // Длина секундной стрелки (процент от радиуса)
+        const MINUTE_HAND_RATIO = 0.8; // Длина минутной стрелки
+        const HOUR_HAND_RATIO = 0.6;   // Длина часовой стрелки
+        const CLOCK_PADDING_RATIO = 0.1; // Внешний отступ от диаметра
+
+        const clockDiameterInput = document.getElementById("clock-diameter");
+        const buildClockButton = document.getElementById("build-clock");
+        const clockContainer = document.getElementById("clock-container");
+        const clockSVG = document.getElementById("clock-svg");
+        const digitalClock = document.getElementById("digital-clock");
+
+        buildClockButton.addEventListener("click", () => {
+            const diameter = parseInt(clockDiameterInput.value);
+            if (isNaN(diameter) || diameter < 200 || diameter > 800) {
+                alert("Введите диаметр от 200 до 800.");
+                return;
+            }
+            buildClock(diameter);
+        });
+
+        function buildClock(diameter) {
+            // Скрываем поле ввода и кнопку
+            document.querySelector(".input-container").style.display = "none";
+            clockContainer.style.display = "block";
+
+            const radius = diameter / 2;
+            const padding = CLOCK_PADDING_RATIO * diameter;
+            const clockCenter = radius + padding;
+
+            // Устанавливаем размеры SVG
+            clockSVG.setAttribute("width", diameter + 2 * padding);
+            clockSVG.setAttribute("height", diameter + 2 * padding);
+
+            // Рисуем циферблат
+            const clockFace = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            clockFace.setAttribute("cx", clockCenter);
+            clockFace.setAttribute("cy", clockCenter);
+            clockFace.setAttribute("r", radius);
+            clockFace.setAttribute("fill", "#FFD966");
+            clockSVG.appendChild(clockFace);
+
+            // Расставляем цифры
+            for (let i = 1; i <= 12; i++) {
+                const angle = (i / 12) * 2 * Math.PI;
+                const x = clockCenter + Math.sin(angle) * (radius - padding);
+                const y = clockCenter - Math.cos(angle) * (radius - padding);
+                const number = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                number.setAttribute("x", x);
+                number.setAttribute("y", y);
+                number.setAttribute("text-anchor", "middle");
+                number.setAttribute("dominant-baseline", "middle");
+                number.setAttribute("font-size", `${Math.round(diameter / 15)}px`);
+                number.setAttribute("fill", "#4CAF50");
+                number.textContent = i;
+                clockSVG.appendChild(number);
+            }
+
+            // Создаем стрелки
+            const secondHand = createHand(clockCenter, radius * SECOND_HAND_RATIO, "#000000", 2);
+            const minuteHand = createHand(clockCenter, radius * MINUTE_HAND_RATIO, "#000000", 4);
+            const hourHand = createHand(clockCenter, radius * HOUR_HAND_RATIO, "#000000", 6);
+
+            clockSVG.appendChild(hourHand);
+            clockSVG.appendChild(minuteHand);
+            clockSVG.appendChild(secondHand);
+
+            // Запускаем таймер
+            updateClock(hourHand, minuteHand, secondHand);
+            setInterval(() => {
+                updateClock(hourHand, minuteHand, secondHand);
+            }, 1000);
+        }
+
+        function createHand(center, length, color, width) {
+            const hand = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            hand.setAttribute("x1", center);
+            hand.setAttribute("y1", center);
+            hand.setAttribute("x2", center);
+            hand.setAttribute("y2", center - length);
+            hand.setAttribute("stroke", color);
+            hand.setAttribute("stroke-width", width);
+            hand.setAttribute("stroke-linecap", "round");
+            return hand;
+        }
+
+        function updateClock(hourHand, minuteHand, secondHand) {
+            const now = new Date();
+            console.log(now.toLocaleTimeString());
+
+            const seconds = now.getSeconds();
+            const minutes = now.getMinutes();
+            const hours = now.getHours() % 12;
+
+            const secondAngle = (seconds / 60) * 360;
+            const hourAngle = (hours / 12) * 360 + (minutes / 60) * 30;
+
+            secondHand.setAttribute(
+                "transform",
+                `rotate(${secondAngle} ${secondHand.getAttribute("x1")} ${secondHand.getAttribute("y1")})`
+            );
+
+            // Обновляем положение минутной стрелки только каждые 30 секунд
+            if (seconds === 0 || seconds === 30) {
+                const minuteAngle = (minutes + (seconds === 30 ? 0.5 : 0)) / 60 * 360;
+                minuteHand.setAttribute(
+                    "transform",
+                    `rotate(${minuteAngle} ${minuteHand.getAttribute("x1")} ${minuteHand.getAttribute("y1")})`
+                );
+            }
+
+            // Перемещение часовой стрелки
+            hourHand.setAttribute(
+                "transform",
+                `rotate(${hourAngle} ${hourHand.getAttribute("x1")} ${hourHand.getAttribute("y1")})`
+            );
+
+            // Обновление цифрового времени
+            digitalClock.textContent = now.toLocaleTimeString();
+        }
+    </script>
+</body>
+
+</html>

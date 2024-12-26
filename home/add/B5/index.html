@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        function buildWrapper(tagName) {
+
+            function escapeHTML(text) {
+                const mnemonics = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '\'': '&apos;',
+                    '"': '&quot;'
+                };
+                return text.replace(/[&<>'"]/g, char => mnemonics[char]);
+            }
+
+            return function (text, attributes = {}) {
+                const escapedText = escapeHTML(text);
+
+                const attrString = Object.entries(attributes)
+                    .map(([key, value]) => `${key}='${escapeHTML(String(value))}'`)
+                    .join(' ');
+
+                return attrString
+                    ? `<${tagName} ${attrString}>${escapedText}</${tagName}>`
+                    : `<${tagName}>${escapedText}</${tagName}>`;
+            };
+        }
+
+        let wrapP = buildWrapper("P");
+        console.log(wrapP("Однажды в студёную зимнюю пору"));
+        console.log(wrapP("Однажды в студёную зимнюю пору", { lang: "ru" }));
+        console.log(wrapP("Однажды в <студёную> зимнюю пору"));
+
+        var wrapH1 = buildWrapper("H1");
+        console.log(wrapH1("СТИХИ", { align: "center", title: "M&M's" }));
+
+    </script>
+</body>
+
+</html>

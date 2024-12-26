@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <script>
+
+function formatNumber(number, format) {
+    // Разделение форматной строки на части до и после точки
+    const [intFormat, fracFormat] = format.split('.');
+    const fracLength = fracFormat ? fracFormat.length : 0; // Число знаков после точки
+
+    // Разделение числа на целую и дробную части
+    let [intPart, fracPart] = number.toFixed(fracLength).split('.');
+
+    // Форматирование целой части: добавление пробелов
+    intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+    // Возвращение целой части с форматированной дробной частью
+    return fracLength > 0 ? `${intPart}.${fracPart}` : intPart;
+}
+
+console.log(formatNumber(2.3, "# ### ###.##"));     
+console.log(formatNumber(12345.368, "# ### ###.##")); 
+
+
+   </script> 
+</body>
+</html>
