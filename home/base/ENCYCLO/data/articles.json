@@ -1,0 +1,14 @@
+{
+    "articles": [
+        { "id": "article1", "title": "Астрономия" },
+        { "id": "article2", "title": "Антропология" },
+        { "id": "article3", "title": "Биология" },
+        { "id": "article4", "title": "Ботаника" },
+        { "id": "article5", "title": "География" },
+        { "id": "article6", "title": "Геология" },
+        { "id": "article7", "title": "Палеонтология" },
+        { "id": "article8", "title": "Программирование" },
+        { "id": "article9", "title": "Робототехника" },
+        { "id": "article10", "title": "Радиоэлектроника" }
+    ]
+}

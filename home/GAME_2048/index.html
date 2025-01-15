@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2048</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="game-container">
+        <div class="header">
+            <h1>Игра 2048</h1>
+            <br>
+            <p class="score-container">Счёт: <span id="score">0</span></p>
+        </div>
+
+        <div class="board" id="board">
+            <!--ячейки генерим динамически -->
+        </div>
+
+        <div id="rulesHeader" class="rules-toggle">Правила ▼</div>
+        <div id="rulesContent" class="rules-content" style="display: none;">
+            <h2>Как играть в 2048?</h2>
+            <p>Цель игры – получить плитку с числом <strong>2048</strong>.
+                Вы начинаете с пустой сеткой 4×4, где случайно появляются плитки со значением 2 или 4.</p>
+            <p>На каждом ходу вы можете сдвигать все плитки на поле вверх, вниз, влево или вправо.
+                Если при сдвиге две плитки с одинаковыми числами сталкиваются, они соединяются в одну плитку,
+                значение которой равно сумме объединившихся плиток.
+                Например, 2 + 2 превращаются в 4, 4 + 4 – в 8, и так далее.
+                При каждом сдвиге на поле появляется новая плитка со значением 2 или 4.</p>
+            <p>Игра заканчивается, когда вы не можете сделать ни одного хода (все клетки заполнены, и нет возможных
+                объединений).</p>
+        </div>
+
+        <button class="btn-restart" id="restartBtn">Новая игра</button>
+    </div>
+    <script src="http://fe.it-academy.by/JQ/jquery.js"></script>
+    <script src="script.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: url(image/svetlo-zelenyi-tsvet-1.webp) center/cover no-repeat;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  h1 {
+    color: white;
+  }
+
+  .score-container {
+    color: white;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .rules-toggle {
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .rules-content {
+    max-width: 600px;
+    margin-bottom: 2rem;
+    background: #7c827c;
+    border-radius: 5px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+  
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: #7c827c;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .header {
+    text-align: center;
+  }
+  
+  .board {
+    width: 400px;
+    height: 400px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+    background: #8f999d;
+    border-radius: 6px;
+  }
+  
+  .cell {
+    background: rgba(238, 228, 218, 0.35);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #776e65;
+  }
+  
+  .tile-2 {
+    background: #e8f5e9; 
+    color: #388e3c;
+  }
+  
+  .tile-4 {
+    background: #c8e6c9; 
+    color: #2e7d32; 
+  }
+  
+  .tile-8 {
+    background: #a5d6a7; 
+    color: #1b5e20; 
+  }
+  
+  .tile-16 {
+    background: #81c784; 
+    color: #ffffff; 
+  }
+  
+  .tile-32 {
+    background: #66bb6a;
+    color: #ffffff;
+  }
+  
+  .tile-64 {
+    background: #4caf50; 
+    color: #ffffff; 
+  }
+  
+  .tile-128 {
+    background: #43a047; 
+    color: #ffffff;
+  }
+  
+  .tile-256 {
+    background: #388e3c; 
+    color: #ffffff; 
+  }
+  
+  .tile-512 {
+    background: #2e7d32;
+    color: #ffffff; 
+  }
+  
+  .tile-1024 {
+    background: #1b5e20; 
+    color: #ffffff; 
+  }
+  
+  .tile-2048 {
+    background: #145a32; 
+    color: #ffffff; 
+  }
+  
+  .tile-super {
+    background: #0b3d16; 
+    color: #ffffff; 
+  }
+  
+  
+  .btn-restart {
+    padding: 10px 20px;
+    background-color: #679334;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 480px) {
+    .board {
+      width: 260px;
+      height: 260px;
+    }
+    .cell {
+      width: 50px;
+      height: 50px;
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .board {
+      width: 300px;
+      height: 300px;
+    }
+    .cell {
+      width: 60px;
+      height: 60px;
+      font-size: 20px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .board {
+      width: 600px; 
+      height: 600px;
+    }
+  
+    .cell {
+      font-size: 32px; 
+    }
+  
+    .game-container {
+      padding: 3rem; 
+    }
+  
+    .btn-restart {
+      padding: 15px 30px; 
+      font-size: 18px;
+    }
+  
+    .score-container {
+      font-size: 24px; 
+    }
+  }
+  

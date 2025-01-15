@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VALID_FORM</title>
+  <style>
+    form {
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    form div {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    label {
+      width: 150px;
+      display: inline-block;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      flex: 1;
+      padding: 5px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+      position: absolute;
+      left: 160px;
+      top: 25px;
+    }
+
+    button {
+      padding: 5px 15px;
+      cursor: pointer;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 15px;
+    }
+
+    .radio-group div {
+      display: flex;
+      align-items: center;
+    }
+    p {
+        font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <p>Для внесения вашего сайта в каталог, заполните форму:</p>
+  <div id="form-container"></div>
+
+  <script>
+    function createForm(containerId, formDef, actionUrl) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const form = document.createElement('form');
+      form.action = actionUrl;
+      form.method = 'post';
+
+      formDef.forEach((field) => {
+        const wrapper = document.createElement('div');
+        const label = document.createElement('label');
+        label.textContent = field.label;
+        label.htmlFor = field.name;
+        wrapper.appendChild(label);
+
+        let input;
+        switch (field.kind) {
+          case 'longtext':
+          case 'shorttext':
+            input = document.createElement('input');
+            input.type = 'text';
+            break;
+
+          case 'number':
+            input = document.createElement('input');
+            input.type = 'number';
+            break;
+
+          case 'date':
+            input = document.createElement('input');
+            input.type = 'date';
+            break;
+
+          case 'combo':
+            input = document.createElement('select');
+            field.variants.forEach((variant) => {
+              const option = document.createElement('option');
+              option.value = variant.value;
+              option.textContent = variant.text;
+              input.appendChild(option);
+            });
+            break;
+
+          case 'radio':
+            input = document.createElement('div');
+            input.className = 'radio-group';
+            field.variants.forEach((variant) => {
+              const radioWrapper = document.createElement('div');
+              const radio = document.createElement('input');
+              radio.type = 'radio';
+              radio.name = field.name;
+              radio.value = variant.value;
+
+              const radioLabel = document.createElement('label');
+              radioLabel.textContent = variant.text;
+
+              radioWrapper.appendChild(radio);
+              radioWrapper.appendChild(radioLabel);
+              input.appendChild(radioWrapper);
+            });
+            break;
+
+          case 'check':
+            input = document.createElement('input');
+            input.type = 'checkbox';
+            break;
+
+          case 'memo':
+            input = document.createElement('textarea');
+            break;
+
+          case 'submit':
+            input = document.createElement('button');
+            input.type = 'submit';
+            input.textContent = field.caption;
+            break;
+
+          default:
+            console.warn(`Unknown field kind: ${field.kind}`);
+        }
+
+        input.name = field.name;
+        input.id = field.name;
+        wrapper.appendChild(input);
+
+        // добавляем место для отображения ошибок
+        const error = document.createElement('div');
+        error.className = 'error-message';
+        error.textContent = '';
+        wrapper.appendChild(error);
+
+        // обработчик событий для валидации
+        if (field.kind !== 'submit') {
+          input.addEventListener('blur', () => validateField(input, field));
+          input.addEventListener('change', () => validateField(input, field));
+        }
+
+        form.appendChild(wrapper);
+      });
+
+      // обработка отправки формы
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const fields = Array.from(form.elements).filter(
+          (el) => el.type !== 'submit'
+        );
+        let isValid = true;
+        fields.forEach((field) => {
+          if (!validateField(field, formDef.find((f) => f.name === field.name))) {
+            isValid = false;
+          }
+        });
+
+        if (!isValid) {
+          const firstErrorField = fields.find(
+            (field) =>
+              form.querySelector(`#${field.name} ~ .error-message`).textContent
+          );
+          firstErrorField.scrollIntoView();
+          firstErrorField.focus();
+        } else {
+          form.submit();
+        }
+      });
+
+      container.appendChild(form);
+    }
+
+    // валидация поля
+    function validateField(input, fieldDef) {
+      const errorElement = input.nextElementSibling;
+      let errorMessage = '';
+
+      if (!input.value.trim()) {
+        errorMessage = 'Поле не может быть пустым';
+      } else if (fieldDef.kind === 'number' && isNaN(Number(input.value))) {
+        errorMessage = 'Введите корректное число';
+      }
+
+      errorElement.textContent = errorMessage;
+      return !errorMessage;
+    }
+
+    // описание формы
+    const formDef = [
+      { label: 'Разработчики:', kind: 'longtext', name: 'developers' },
+      { label: 'Название сайта:', kind: 'longtext', name: 'sitename' },
+      { label: 'URL сайта:', kind: 'longtext', name: 'siteurl' },
+      { label: 'Дата запуска сайта:', kind: 'date', name: 'launchdate' },
+      { label: 'Посетителей в сутки:', kind: 'number', name: 'visitors' },
+      { label: 'E-mail для связи:', kind: 'shorttext', name: 'email' },
+      {
+        label: 'Рубрика каталога:',
+        kind: 'combo',
+        name: 'category',
+        variants: [
+          { text: 'здоровье', value: 'health' },
+          { text: 'технологии', value: 'tech' },
+          { text: 'бытовая техника', value: 'appliances' },
+        ],
+      },
+      {
+        label: 'Размещение:',
+        kind: 'radio',
+        name: 'placement',
+        variants: [
+          { text: 'бесплатное', value: 'free' },
+          { text: 'платное', value: 'paid' },
+          { text: 'VIP', value: 'vip' },
+        ],
+      },
+      { label: 'Разрешить отзывы:', kind: 'check', name: 'reviews' },
+      { label: 'Описание сайта:', kind: 'memo', name: 'description' },
+      { caption: 'Опубликовать', kind: 'submit' },
+    ];
+
+    createForm('form-container', formDef, 'https://fe.it-academy.by/TestForm.php');
+  </script>
+</body>
+</html>
