@@ -47,7 +47,7 @@ class Game {
       for (let c = 0; c < row.length - 1; c++) {
         if (row[c] && row[c + 1] && row[c].value === row[c + 1].value) {
           row[c].value *= 2;
-          navigator.vibrate(50);
+
           playSound('merge');
           this.score += row[c].value;
           row.splice(c + 1, 1);
@@ -74,7 +74,6 @@ class Game {
       for (let c = row.length - 1; c > 0; c--) {
         if (row[c] && row[c - 1] && row[c].value === row[c - 1].value) {
           row[c].value *= 2;
-          navigator.vibrate(50);
           playSound('merge');
           this.score += row[c].value;
           row.splice(c - 1, 1);
@@ -106,7 +105,7 @@ class Game {
       for (let i = 0; i < col.length - 1; i++) {
         if (col[i] && col[i + 1] && col[i].value === col[i + 1].value) {
           col[i].value *= 2;
-          navigator.vibrate(50);
+
           playSound('move');
           this.score += col[i].value;
           col.splice(i + 1, 1);
@@ -140,7 +139,7 @@ class Game {
       for (let i = col.length - 1; i > 0; i--) {
         if (col[i] && col[i - 1] && col[i].value === col[i - 1].value) {
           col[i].value *= 2;
-          navigator.vibrate(50);
+
           playSound('move');
           this.score += col[i].value;
           col.splice(i - 1, 1);
@@ -192,17 +191,16 @@ const soundEffects = {
 const initializeSounds = () => {
   if (isSoundInitialized) return; // Если уже инициализировано, ничего не делаем
 
-  soundEffects.move = new Audio('move.mp3'); 
-  soundEffects.merge = new Audio('merge.mp3'); 
+  soundEffects.move = new Audio('move.mp3');
+  soundEffects.merge = new Audio('merge.mp3');
 
   //тихое воспроизведение для активации звука в браузерах
-  soundEffects.move.play().catch(() => {});
-  soundEffects.merge.play().catch(() => {});
+  soundEffects.move.play().catch(() => { });
+  soundEffects.merge.play().catch(() => { });
 
   isSoundInitialized = true; //отмечаем, что звуки инициализированы
   console.log('Звуки инициализированы');
 };
-
 
 const playSound = (type) => {
   if (isMuted || !isSoundInitialized) return; // если звук выключен или не инициализирован, ничего не делаем
@@ -259,13 +257,14 @@ function render() {
       cellEl.classList.add('cell');
       if (tile) {
         cellEl.textContent = tile.value;
-        cellEl.classList.add(`tile-${tile.value <= 2048 ? tile.value : 'super'}`, 'tile-burst');
+        cellEl.classList.add(`tile-${tile.value <= 2048 ? tile.value : 'super'}`);
       }
       boardEl.appendChild(cellEl);
     }
   }
   scoreEl.textContent = game.score;
 }
+
 
 window.addEventListener('load', () => {
   game.loadStateFromLocalStorage();
@@ -304,7 +303,7 @@ document.addEventListener('touchstart', (e) => {
 }, { passive: false });
 
 document.addEventListener('touchmove', (e) => {
-  e.preventDefault(); 
+  e.preventDefault();
 }, { passive: false });
 
 document.addEventListener('touchend', (e) => {
@@ -342,3 +341,5 @@ document.addEventListener('keydown', (e) => {
   }
   render();
 });
+
+
