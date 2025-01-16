@@ -22,6 +22,7 @@ class Game {
     this.score = 0;
     this.addRandomTile();
     this.addRandomTile();
+    this.saveStateToLocalStorage();
   }
 
   addRandomTile() {
@@ -41,48 +42,56 @@ class Game {
   moveLeft() {
     let moved = false;
     for (let r = 0; r < this.size; r++) {
-      const row = this.grid[r].filter(tile => tile !== null); //получаем все непустые плитки
+      const row = this.grid[r].filter(tile => tile !== null);
       for (let c = 0; c < row.length - 1; c++) {
         if (row[c] && row[c + 1] && row[c].value === row[c + 1].value) {
-          row[c].value *= 2; 
+          row[c].value *= 2;
+          navigator.vibrate(50);
+          playSound('merge');
           this.score += row[c].value;
-          row.splice(c + 1, 1); //убираем вторую плитку
+          row.splice(c + 1, 1);
         }
       }
       while (row.length < this.size) {
-        row.push(null); //заполняем оставшееся место пустыми клетками
+        row.push(null);
       }
       if (!this.grid[r].every((tile, i) => tile === row[i])) {
         moved = true;
       }
-      this.grid[r] = row; //обновляем строку
+      this.grid[r] = row;
     }
-    if (moved) this.addRandomTile(); //добавляем новую плитку (если было движение)
+    if (moved) {
+      this.addRandomTile();
+      this.saveStateToLocalStorage();
+    }
   }
-  
 
   moveRight() {
     let moved = false;
     for (let r = 0; r < this.size; r++) {
-      const row = this.grid[r].filter(tile => tile !== null); //собираем непустые плитки
+      const row = this.grid[r].filter(tile => tile !== null);
       for (let c = row.length - 1; c > 0; c--) {
         if (row[c] && row[c - 1] && row[c].value === row[c - 1].value) {
-          row[c].value *= 2; //суммируем плитки
+          row[c].value *= 2;
+          navigator.vibrate(50);
+          playSound('merge');
           this.score += row[c].value;
-          row.splice(c - 1, 1); //убираем предыдущую плитку
+          row.splice(c - 1, 1);
         }
       }
       while (row.length < this.size) {
-        row.unshift(null); //ополняем пустыми клетками слева
+        row.unshift(null);
       }
       if (!this.grid[r].every((tile, i) => tile === row[i])) {
         moved = true;
       }
-      this.grid[r] = row; //обновляем строку
+      this.grid[r] = row;
     }
-    if (moved) this.addRandomTile(); //добавляем новую плитку, если было движение
+    if (moved) {
+      this.addRandomTile();
+      this.saveStateToLocalStorage();
+    }
   }
-  
 
   moveUp() {
     let moved = false;
@@ -90,29 +99,33 @@ class Game {
       const col = [];
       for (let r = 0; r < this.size; r++) {
         if (this.grid[r][c] !== null) {
-          col.push(this.grid[r][c]); //собираем непустые плитки
+          col.push(this.grid[r][c]);
         }
       }
       for (let i = 0; i < col.length - 1; i++) {
         if (col[i] && col[i + 1] && col[i].value === col[i + 1].value) {
-          col[i].value *= 2; //суммируем плитки
+          col[i].value *= 2;
+          navigator.vibrate(50);
+          playSound('merge');
           this.score += col[i].value;
-          col.splice(i + 1, 1); //убираем нижнюю плитку
+          col.splice(i + 1, 1);
         }
       }
       while (col.length < this.size) {
-        col.push(null); //дополняем пустыми клетками снизу
+        col.push(null);
       }
       for (let r = 0; r < this.size; r++) {
         if (this.grid[r][c] !== col[r]) {
           moved = true;
         }
-        this.grid[r][c] = col[r]; //обновляем колонку
+        this.grid[r][c] = col[r];
       }
     }
-    if (moved) this.addRandomTile(); //добавляем новую плитку, если было движение
+    if (moved) {
+      this.addRandomTile();
+      this.saveStateToLocalStorage();
+    }
   }
-  
 
   moveDown() {
     let moved = false;
@@ -120,38 +133,87 @@ class Game {
       const col = [];
       for (let r = 0; r < this.size; r++) {
         if (this.grid[r][c] !== null) {
-          col.push(this.grid[r][c]); //собираем непустые плитки
+          col.push(this.grid[r][c]);
         }
       }
       for (let i = col.length - 1; i > 0; i--) {
         if (col[i] && col[i - 1] && col[i].value === col[i - 1].value) {
-          col[i].value *= 2; // Суммируем плитки
+          col[i].value *= 2;
+          navigator.vibrate(50);
+          playSound('merge');
           this.score += col[i].value;
-          col.splice(i - 1, 1); //убираем верхнюю плитку
+          col.splice(i - 1, 1);
         }
       }
       while (col.length < this.size) {
-        col.unshift(null); //дополняем пустыми клетками сверху
+        col.unshift(null);
       }
       for (let r = 0; r < this.size; r++) {
         if (this.grid[r][c] !== col[r]) {
           moved = true;
         }
-        this.grid[r][c] = col[r]; //обновляем колонку
+        this.grid[r][c] = col[r];
       }
     }
-    if (moved) this.addRandomTile(); //добавляем новую плитку, если было движение
+    if (moved) {
+      this.addRandomTile();
+      this.saveStateToLocalStorage();
+    }
   }
-  
+
+  saveStateToLocalStorage() {
+    const state = {
+      grid: this.grid.map(row => row.map(tile => tile ? tile.value : null)),
+      score: this.score,
+    };
+    localStorage.setItem('2048-game', JSON.stringify(state));
+  }
+
+  loadStateFromLocalStorage() {
+    const state = JSON.parse(localStorage.getItem('2048-game'));
+    if (state) {
+      this.grid = state.grid.map(row => row.map(value => value ? new Tile(value) : null));
+      this.score = state.score;
+    } else {
+      this.init();
+    }
+  }
 }
 
+const playSound = (type) => {
+  const sounds = {
+    move: 'move.mp3',
+    merge: 'merge.mp3',
+  };
+  const audio = new Audio(sounds[type]);
+  audio.play().catch((error) => {
+    console.error('Ошибка воспроизведения звука:', error);
+  });
+};
+
+const sendScoreToServer = async (score) => {
+  try {
+    const response = await fetch('http://fe.it-academy.by/TestForm.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `score=${score}`,
+    });
+    if (response.ok) {
+      console.log('Score sent successfully!');
+    } else {
+      console.error('Failed to send score.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const game = new Game();
 const boardEl = document.getElementById('board');
 const scoreEl = document.getElementById('score');
 const restartBtn = document.getElementById('restartBtn');
 const rulesHeader = document.getElementById('rulesHeader');
 const rulesContent = document.getElementById('rulesContent');
-
-const game = new Game();
 
 function render() {
   boardEl.innerHTML = '';
@@ -162,7 +224,7 @@ function render() {
       cellEl.classList.add('cell');
       if (tile) {
         cellEl.textContent = tile.value;
-        cellEl.classList.add(`tile-${tile.value <= 2048 ? tile.value : 'super'}`);
+        cellEl.classList.add(`tile-${tile.value <= 2048 ? tile.value : 'super'}`, 'tile-burst');
       }
       boardEl.appendChild(cellEl);
     }
@@ -170,43 +232,17 @@ function render() {
   scoreEl.textContent = game.score;
 }
 
-function handleKey(e) {
-  let moved = false;
-  switch (e.key) {
-    case 'ArrowLeft':
-      e.preventDefault();
-      game.moveLeft();
-      moved = true;
-      break;
-    case 'ArrowRight':
-      e.preventDefault();
-      game.moveRight();
-      moved = true;
-      break;
-    case 'ArrowUp':
-      e.preventDefault();
-      game.moveUp();
-      moved = true;
-      break;
-    case 'ArrowDown':
-      e.preventDefault();
-      game.moveDown();
-      moved = true;
-      break;
-    default:
-      return; //игнор. остальные клавиши
+window.addEventListener('load', () => {
+  game.loadStateFromLocalStorage();
+  render();
+});
+
+window.addEventListener('beforeunload', (e) => {
+  if (game.grid.some(row => row.some(cell => cell))) {
+    e.preventDefault();
+    e.returnValue = '';
+    sendScoreToServer(game.score);
   }
-
-  if (moved) {
-    render();
-  }
-}
-
-
-rulesHeader.addEventListener('click', () => {
-  const isHidden = rulesContent.style.display === 'none';
-  rulesContent.style.display = isHidden ? 'block' : 'none';
-  rulesHeader.textContent = isHidden ? 'Правила ▲' : 'Правила ▼';
 });
 
 restartBtn.addEventListener('click', () => {
@@ -214,83 +250,56 @@ restartBtn.addEventListener('click', () => {
   render();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  game.init();
-  render();
+rulesHeader.addEventListener('click', () => {
+  const isHidden = rulesContent.style.display === 'none';
+  rulesContent.style.display = isHidden ? 'block' : 'none';
+  rulesHeader.textContent = isHidden ? 'Правила ▲' : 'Правила ▼';
 });
 
-//обработчики клавиш
-function handleKey(e) {
-  switch (e.key) {
-    case 'ArrowLeft':
-      e.preventDefault();
-      game.moveLeft();
-      break;
-    case 'ArrowRight':
-      e.preventDefault();
-      game.moveRight();
-      break;
-    case 'ArrowUp':
-      e.preventDefault();
-      game.moveUp();
-      break;
-    case 'ArrowDown':
-      e.preventDefault();
-      game.moveDown();
-      break;
-    default:
-      return;
-  }
-  render();
-}
+let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
 
-//обработчики жестов
-let touchStartX = 0;
-let touchStartY = 0;
-let touchEndX = 0;
-let touchEndY = 0;
-
-function handleTouchStart(e) {
+document.addEventListener('touchstart', (e) => {
   const touch = e.touches[0];
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
-}
+}, { passive: false });
 
-function handleTouchEnd(e) {
+document.addEventListener('touchmove', (e) => {
+  e.preventDefault(); 
+}, { passive: false });
+
+document.addEventListener('touchend', (e) => {
   const touch = e.changedTouches[0];
   touchEndX = touch.clientX;
   touchEndY = touch.clientY;
-  handleSwipe();
-}
 
-function handleSwipe() {
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX > 50) {
-      game.moveRight();
-    } else if (deltaX < -50) {
-      game.moveLeft();
-    }
+    if (deltaX > 50) game.moveRight();
+    if (deltaX < -50) game.moveLeft();
   } else {
-    if (deltaY > 50) {
-      game.moveDown();
-    } else if (deltaY < -50) {
-      game.moveUp();
-    }
+    if (deltaY > 50) game.moveDown();
+    if (deltaY < -50) game.moveUp();
   }
   render();
-}
+}, { passive: false });
 
-//подключение событий
-document.addEventListener('keydown', handleKey);
-document.addEventListener('touchstart', handleTouchStart, { passive: true });
-document.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-//инициализация игры
-game.init();
-render();
-
-
-window.addEventListener('keydown', handleKey);
+document.addEventListener('keydown', (e) => {
+  switch (e.key) {
+    case 'ArrowLeft':
+      game.moveLeft();
+      break;
+    case 'ArrowRight':
+      game.moveRight();
+      break;
+    case 'ArrowUp':
+      game.moveUp();
+      break;
+    case 'ArrowDown':
+      game.moveDown();
+      break;
+  }
+  render();
+});
