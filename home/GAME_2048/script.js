@@ -107,7 +107,7 @@ class Game {
         if (col[i] && col[i + 1] && col[i].value === col[i + 1].value) {
           col[i].value *= 2;
           navigator.vibrate(50);
-          playSound('merge');
+          playSound('move');
           this.score += col[i].value;
           col.splice(i + 1, 1);
         }
@@ -141,7 +141,7 @@ class Game {
         if (col[i] && col[i - 1] && col[i].value === col[i - 1].value) {
           col[i].value *= 2;
           navigator.vibrate(50);
-          playSound('merge');
+          playSound('move');
           this.score += col[i].value;
           col.splice(i - 1, 1);
         }
@@ -182,31 +182,49 @@ class Game {
 }
 
 let isMuted = false;
+let isSoundInitialized = false;
 
-// воспроизведения звука
-const playSound = (type) => {
-    if (isMuted) return; // если звук отключён, ничего не воспроизводим
-
-    const sounds = {
-        move: 'move.mp3', 
-        merge: 'merge.mp3',
-    };
-
-    const audio = new Audio(sounds[type]);
-    audio.play().catch((error) => {
-        console.error('Ошибка воспроизведения звука:', error);
-    });
+const soundEffects = {
+  move: null,
+  merge: null,
 };
 
-// управление звуком
-const soundButton = document.getElementById('toggle-sound');
+const initializeSounds = () => {
+  if (isSoundInitialized) return; // Если уже инициализировано, ничего не делаем
 
-// обработчик клика для включения/выключения звука
+  soundEffects.move = new Audio('move.mp3'); 
+  soundEffects.merge = new Audio('merge.mp3'); 
+
+  //тихое воспроизведение для активации звука в браузерах
+  soundEffects.move.play().catch(() => {});
+  soundEffects.merge.play().catch(() => {});
+
+  isSoundInitialized = true; //отмечаем, что звуки инициализированы
+  console.log('Звуки инициализированы');
+};
+
+
+const playSound = (type) => {
+  if (isMuted || !isSoundInitialized) return; // если звук выключен или не инициализирован, ничего не делаем
+
+  const audio = soundEffects[type];
+  if (audio) {
+    // Используем cloneNode(), чтобы создать независимую копию звука
+    const clone = audio.cloneNode();
+    clone.currentTime = 0; //  устанавливаем время начала
+    clone.play().catch((error) => {
+      console.error(`Ошибка воспроизведения звука (${type}):`, error);
+    });
+  }
+};
+
+const soundButton = document.getElementById('toggle-sound');
 soundButton.addEventListener('click', () => {
-    isMuted = !isMuted; // переключение
-    soundButton.classList.toggle('muted', isMuted);
-    soundButton.textContent = isMuted ? '🔇' : '🔊'; 
+  isMuted = !isMuted;
+  soundButton.classList.toggle('muted', isMuted);
+  soundButton.textContent = isMuted ? '🔇' : '🔊';
 });
+
 
 const sendScoreToServer = async (score) => {
   try {
@@ -261,6 +279,10 @@ window.addEventListener('beforeunload', (e) => {
     sendScoreToServer(game.score);
   }
 });
+
+document.addEventListener('click', initializeSounds, { once: true });
+document.addEventListener('keydown', initializeSounds, { once: true }); // Выполняется один раз
+document.addEventListener('touchstart', initializeSounds, { once: true }); // Выполняется один раз
 
 restartBtn.addEventListener('click', () => {
   game.init();
