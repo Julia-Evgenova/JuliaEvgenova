@@ -1,3 +1,4 @@
+
 class Tile {
   constructor(value, row, col) {
     this.value = value;
@@ -180,16 +181,32 @@ class Game {
   }
 }
 
+let isMuted = false;
+
+// воспроизведения звука
 const playSound = (type) => {
-  const sounds = {
-    move: 'move.mp3',
-    merge: 'merge.mp3',
-  };
-  const audio = new Audio(sounds[type]);
-  audio.play().catch((error) => {
-    console.error('Ошибка воспроизведения звука:', error);
-  });
+    if (isMuted) return; // если звук отключён, ничего не воспроизводим
+
+    const sounds = {
+        move: 'move.mp3', 
+        merge: 'merge.mp3',
+    };
+
+    const audio = new Audio(sounds[type]);
+    audio.play().catch((error) => {
+        console.error('Ошибка воспроизведения звука:', error);
+    });
 };
+
+// управление звуком
+const soundButton = document.getElementById('toggle-sound');
+
+// обработчик клика для включения/выключения звука
+soundButton.addEventListener('click', () => {
+    isMuted = !isMuted; // переключение
+    soundButton.classList.toggle('muted', isMuted);
+    soundButton.textContent = isMuted ? '🔇' : '🔊'; 
+});
 
 const sendScoreToServer = async (score) => {
   try {

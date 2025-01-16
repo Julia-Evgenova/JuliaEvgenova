@@ -15,10 +15,36 @@ body {
 
 h1 {
     color: white;
+    font-size: 30px;
 }
 
 .score-container {
     color: white;
+}
+
+.btn-sound {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    z-index: 10;
+    padding: 5px;
+    font-size: 22px; 
+    border: none;
+    border-radius: 25%; 
+    cursor: pointer;
+    background-color: #679334;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s ease; 
+}
+
+.btn-sound.muted {
+    background-color: #ccc; 
+    color: #333;
+}
+
+.btn-sound:hover {
+    background-color: #567d2b;
 }
 
 .container {
@@ -50,7 +76,7 @@ h1 {
     align-items: center;
     gap: 1rem;
     background: #7c827cba;
-    ;
+    position: relative;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
