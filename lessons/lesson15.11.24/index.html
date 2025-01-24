@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <form action="http://fe.it-academy.by/TestForm.php" name="form1">
+        <input type="text" name="inp1">
+        <input type="text" name="inp2">
+        <input type="submit">
+    </form>
+    <hr>
+    <form action="#" name="form2">
+        <input type="text" name="inp2">
+    </form>
+
+    <script>
+        const form = document.forms.form1
+        const elems = form.querySelectorAll('[type=text]');
+        form.addEventListener('submit', (e) => {
+            // e.preventDefault();
+            if (firstInp.value === '') {
+                e.preventDefault();
+                alert()
+            }
+            if (check()) {
+                form.submit()
+            }
+        })
+
+        function check() {
+            for (let inp of elems) {
+                if (!inp.value) {
+                    return 0
+                }
+            }
+            return 1
+        }
+    </script>
+</body>
+
+</html>

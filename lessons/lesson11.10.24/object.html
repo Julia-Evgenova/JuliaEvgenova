@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        div {
+            background-color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <script>
+
+        // const name = 'Ivan';
+        // const age = 25;
+
+        // const name1 = 'Petr';
+        // const age1 = 30;
+
+        // const user1 = ['Ivan', 25];
+        // const user2 = ['Petr', 30];
+        // const user3 = [40, 'Sidr'];
+
+        const user1Test = new Object();
+
+        const key1 = 'na';
+        const key2 = 'me';
+
+        const user1 = { name: 'Ivan', age: 25 };
+        const user2 = { age: 30, name: 'Petr' };
+        const user3 = { name: 'Sidr', age: 40 };
+
+        const users = [
+            user1, user2, user3
+        ]
+
+        function getUserData(users) {
+            for (let i = 0; i < users.length; i++) {
+                console.log(`name: ${users[i].name}, age: ${users[i].age}`)
+            }
+        }
+
+        // getUserData(users);
+
+        const beatles = {
+            name: 'Beatles',
+            members: ['McCartney', 'Lennon', 'Harrison', 'Starr'],
+            albums: [
+                { name: 'Please Please Me', year: 1963 },
+                { name: 'With The Beatles', year: 1963 },
+                { name: "A Hard Day's Night", year: 1964 }
+            ]
+        };
+
+        let summ = 0
+
+        summ = summ + 5
+
+        for (let key in beatles) {
+            if (key === 'albums') {
+                for (let i = 0; i < beatles[key].length; i++) {
+                    console.log(beatles[key][i].name)
+                }
+            }
+        }
+
+
+        let myBoard = [
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+        ];
+
+    </script>
+
+</body>
+
+</html>

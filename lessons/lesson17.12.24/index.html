@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div id="app"></div>
+    <a href="https://www.onliner.by/" id="link" onclick="test()">click1</a> <br>
+    <a href="#click2">click2</a> <br>
+
+    <video src="">
+        <embed src="" type="">
+
+        <a href="">download</a>
+    </video>
+
+    <script>
+        const link = document.getElementById('link');
+        link.onclick = (e) => {
+            e.preventDefault()
+            window.location.href = 'https://av.by/'
+        }
+
+        // link.addEventListener('click', )
+
+        const app = document.getElementById('app')
+        window.addEventListener('hashchange', (e) => {
+
+            if (location.hash === '#click1') {
+                app.innerHTML = "<h1>#click1<h1>"
+            } else app.innerHTML = "<h1>#click2<h1>"
+        })
+
+        window.addEventListener('keypress', (e) => {
+            console.log('---- e', e)
+        })
+
+
+        function Test() {
+            console.log('this', this);
+            this.get = function () {
+                console.log('this in func', this);
+            }
+        }
+
+        class Test1 {
+
+        }
+
+        const ttt = new Test();
+
+        [].forEach(() => console.log(this))
+    </script>
+</body>
+
+</html>

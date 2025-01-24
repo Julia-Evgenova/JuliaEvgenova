@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        // function Car() {
+        //     const a = 5
+
+        //     this.property = 1;
+        //     this.run = function(){
+
+        //     }
+        // }
+
+        // Car.prototype.method1 = function () {
+        //     console.log('-----method1')
+        // }
+
+        // Car.method2 = function () {
+        //     console.log('-----method2')
+        // }
+
+        // Car.property3 = 3;
+
+        class Car {
+
+            constructor() {
+                this.property = 1;
+                this.run = () => console.log('run')
+            }
+
+            property2 = 5
+
+            method1() { console.log('-----method1') }
+
+            static method2() { console.log('-----method2') }
+
+            static property3 = 3;
+
+            #privateMethod() {
+                console.log('-----privateMethod')
+            }
+        }
+
+        const bmw = new Car()
+        const mers = new Car()
+
+
+    </script>
+
+
+</body>
+
+</html>

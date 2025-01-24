@@ -189,7 +189,7 @@ const soundEffects = {
 };
 
 const initializeSounds = () => {
-  if (isSoundInitialized) return; // Если уже инициализировано, ничего не делаем
+  if (isSoundInitialized) return; //eсли уже инициализировано, ничего не делаем
 
   soundEffects.move = new Audio('move.mp3');
   soundEffects.merge = new Audio('merge.mp3');

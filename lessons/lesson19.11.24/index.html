@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+    <div>
+        <ul>
+            <li class="li1">
+                click1
+            </li>
+            <li class="li2">
+                click2
+            </li>
+            <li class="li3">
+                click3
+            </li>
+        </ul>
+        <ul>
+            <li class="li1">
+                click1
+            </li>
+            <li class="li2">
+                click2
+            </li>
+            <li class="li3">
+                click3
+            </li>
+        </ul>
+        <p>hello</p>
+    </div>
+
+    <span draggable="true">Hello</span>
+
+    <script>
+
+        const div = document.querySelector('div');
+
+        div.addEventListener('click', (event) => {
+            console.log('click')
+            event.target.style.backgroundColor = 'green'
+        })
+        div.addEventListener('mousedown', () => {
+            console.log('mousedown')
+            event.target.style.backgroundColor = 'red'
+        })
+        div.addEventListener('mouseup', () => {
+            console.log('mouseup')
+            event.target.style.backgroundColor = 'blue'
+        })
+        div.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            event.target.style.backgroundColor = 'violet'
+        })
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        header {
+            height: 50px;
+            background-color: burlywood;
+        }
+
+        #menu {
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            transition: 0.5s;
+        }
+
+        #menu li {
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        #menu li:hover {
+            background-color: rgb(214, 126, 12);
+        }
+
+        #open,
+        #close {
+            width: 35px;
+            height: 23px;
+            background: crimson;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            user-select: none;
+            display: none;
+        }
+
+        header {
+            width: 100%;
+            height: 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .block {
+            height: 100vh;
+        }
+
+        #one {
+            background-color: red;
+            margin-top: 50px;
+        }
+
+        #two {
+            background-color: green;
+        }
+
+        #three {
+            background-color: blue;
+        }
+
+        #four {
+            background-color: orange;
+        }
+
+        #five {
+            background-color: violet;
+        }
+
+        @media all and (max-width: 450px) {
+
+            #open.active,
+            #close.active {
+                display: block;
+            }
+
+            #open {
+                display: block;
+            }
+
+            #menu {
+                flex-direction: column;
+                width: 100px;
+                height: auto;
+                background-color: burlywood;
+                position: absolute;
+                right: -100px;
+                top: 50px;
+                transform: translate(0, 0);
+            }
+
+            #menu.menu__mobile--visible {
+                transform: translate(-100px, 0px);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div id="open">open</div>
+        <div id="close">close</div>
+
+        <ul id="menu" class="menu__mobile--hidden">
+            <li>
+                <a href="#one">one</a>
+            </li>
+            <li>
+                <a href="#two">two</a>
+            </li>
+            <li>
+                <a href="#three">three</a>
+            </li>
+            <li>
+                <a href="#four">four</a>
+            </li>
+            <li>
+                <a href="#five">five</a>
+            </li>
+        </ul>
+    </header>
+    <div id="one" class="block"></div>
+    <div id="two" class="block"></div>
+    <div id="three" class="block"></div>
+    <div id="four" class="block"></div>
+    <div id="five" class="block"></div>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var open = $('#open');
+            var close = $('#close');
+            var menu = $('#menu');
+
+            menu.on('click', 'a', function (event) {
+                event.preventDefault();
+                var link = $(event.currentTarget).attr('href');
+                var top = $(link).offset().top;
+                $('body, html').animate({ scrollTop: top - 50 }, 800)
+            })
+
+            open.click(function () {
+                menu.attr('class', 'menu__mobile--visible');
+                $(this).attr('class', '');
+                close.attr('class', 'active');
+            });
+
+            close.click(function () {
+                menu.attr('class', '');
+                $(this).attr('class', '');
+                open.attr('class', 'active');
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>

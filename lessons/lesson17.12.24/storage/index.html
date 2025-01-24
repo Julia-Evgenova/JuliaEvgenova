@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text" name="name"> <br>
+    <input type="number" name="age"> <br>
+
+    <button>add</button>
+
+    <script>
+        const inputName = document.querySelector('[name=name]');
+        const inputAge = document.querySelector('[name=age]');
+        const btn = document.querySelector('button');
+
+
+        btn.addEventListener('click', () => {
+
+            const usersStorage = JSON.parse(localStorage.getItem('users')) || [];
+            console.log('----usersStorage', usersStorage);
+
+            const userData = {
+                id: Math.random().toString(),
+                name: inputName.value,
+                age: inputAge.value,
+            }
+            usersStorage.push(userData);
+            localStorage.setItem('users', JSON.stringify(usersStorage))
+        })
+    </script>
+
+</body>
+
+</html>

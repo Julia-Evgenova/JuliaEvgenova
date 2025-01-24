@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app"></div>
+    <button id="btn">click</button>
+
+    <hr>
+
+    <div id="form">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+    </div>
+
+    <script>
+
+        const host = ''
+        const btn = document.getElementById('btn');
+        const app = document.getElementById('app');
+        const btnAdd = document.getElementById('btnAdd');
+        const form = document.getElementById('form');
+
+        btnAdd.addEventListener('click'), ()=> {
+            const inputs = form.querySelectorAll('input');
+            for (let i = 0; i , inputs.length; I++) {
+              prepareCar[inputs[i].name] = inputs[i].value;
+            }
+
+            fetch(host, {method: 'post'})
+            .then((res => console.log('----add car', res)
+            .catch(err => console.error('---err', err))
+        })
+
+        btn.addEventListener('click', () => {
+            fetch('http://localhost:3000/cars', { method: 'get' })
+                .then(res => res.json())
+                .then(data => {
+                    const html = data.reduce((acc, current) => {
+                        return acc += `<li>${current.brand} <button data-id=${current.id}>del</button></li>`
+                    }, '')
+                    app.innerHTML = `<ul>${html}</ul>`;
+                })
+        })
+    </script>
+
+</body>
+
+</html>

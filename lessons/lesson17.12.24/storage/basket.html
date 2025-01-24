@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <ul></ul>
+
+    <script>
+        const ul = document.querySelector('ul');
+
+        window.addEventListener('load', () => {
+            const users = JSON.parse(localStorage.getItem('users'));
+
+            const prepareHtml = users?.reduce((acc, current) => {
+                return acc += `<li>${current.name} - ${current.age} <button data-id="${current.id}" onclick="deleteFunc(${current.id})">del</button></li>`
+            }, '');
+
+            ul.innerHTML = prepareHtml || 'no users'
+
+        })
+
+        window.addEventListener('storage', () => {
+            const users = JSON.parse(localStorage.getItem('users'));
+
+            const prepareHtml = users?.reduce((acc, current) => {
+                return acc += `<li>${current.name} - ${current.age} <button data-id="${current.id}" onclick="deleteFunc(${current.id})">del</button></li>`
+            }, '');
+
+            ul.innerHTML = prepareHtml || 'no users'
+        })
+
+        function deleteFunc(id) {
+            console.log(id)
+
+            const users = JSON.parse(localStorage.getItem('users'));
+            const filteredUsers = users.filter((user) => user.id !== (id).toString());
+
+            localStorage.setItem('users', JSON.stringify(filteredUsers))
+
+            const prepareHtml = filteredUsers?.reduce((acc, current) => {
+                return acc += `<li>${current.name} - ${current.age} <button data-id="${current.id}" onclick="deleteFunc(${current.id})">del</button></li>`
+            }, '');
+
+            ul.innerHTML = prepareHtml || 'no users'
+        }
+    </script>
+
+</body>
+
+</html>

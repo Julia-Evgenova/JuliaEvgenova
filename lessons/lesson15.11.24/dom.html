@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>test</p>
+    <div>
+        <span>span</span>
+        <p>p</p>
+    </div>
+
+
+    <ul>
+        <li>li1</li>
+        <li>li2</li>
+        <li>li3</li>
+    </ul>
+
+
+    <script>
+
+        const iTag = document.createElement('i');
+        const iText = document.createTextNode('Hello');
+        const div = document.querySelector('div');
+        const p = div.querySelector('p');
+        iTag.appendChild(iText);
+        div.insertBefore(iTag, p);
+    </script>
+
+</body>
+
+</html>

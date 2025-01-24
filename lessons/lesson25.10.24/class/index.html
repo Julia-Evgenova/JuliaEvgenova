@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+    <script>
+
+        function Car(brand, model, color) {
+            this.brand = brand;
+            this.model = model;
+            this.color = color;
+        }
+
+        class Car1 {
+            constructor(brand, model, color) {
+                this.brand = brand;
+                this.model = model;
+                this.color = color;
+            }
+        }
+
+        let bmw = new Car('BMW', 'X5', 'black');
+        const bmw1 = new Car1('BMW', 'X5', 'black');
+
+
+        const a = new Array()
+
+        const flatArr = ['Opel', 'BMW', 'Seat', 'Ford']
+
+        function result(func) {
+            console.log(func());
+        }
+
+        function sayHello() {
+            return 'Hello Ivan'
+        }
+
+        function getSumm() {
+            return 5 + 10
+        }
+
+        const names = ['Ivan', 'Petr', 'Sidr']
+
+
+        // names.forEach(value => console.log(`Hello ${value}!!!`))
+
+        const oddArr = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(value => value % 2 === 0)
+
+        const reduceArr = [5, 7, [4, [2], 8, [1, 3], 2], [9, []], 1, 8]
+            .flat(2)
+            .reduce((previos, current) => {
+                return previos + current;
+            }, 0)
+
+        const users = [
+            {
+                name: 'Ivan',
+                age: 25,
+            },
+            {
+                name: 'Petr',
+                age: 30,
+            },
+            {
+                name: 'Sidr',
+                age: 35,
+            },
+            {
+                name: 'Sidr',
+                age: 35,
+            },
+            {
+                name: 'Sidr',
+                age: 35,
+            },
+            {
+                name: 'Sidr',
+                age: 35,
+            },
+            {
+                name: 'Sidr',
+                age: 35,
+            },
+        ];
+
+        const reduce2 = users.reduce((previos, current) => {
+            return previos + `<li>${current.name} - ${current.age}</li>\n`;
+        }, '')
+
+        // console.log(reduce2)
+
+        // const app = document.getElementById('app');
+        // app.innerHTML = `<ul>${reduce2}</ul>`
+
+
+        // const test = [1, 2, 3, 4, 5]
+
+        const n = [7, 55, 9, 22];
+
+        function test() {
+            console.log('-----hello')
+        }
+
+        const besotzivniy1 = {
+            data: '12121',
+            name: 'ssdsds',
+        }
+
+        const besotzivniy2 = {
+            data: '12121',
+            name: 'ssdsds',
+        }
+    </script>
+</body>
+
+</html>
