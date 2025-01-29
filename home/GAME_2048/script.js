@@ -320,6 +320,9 @@ document.addEventListener('touchend', (e) => {
 
 // логика управления с клавиатуры
 document.addEventListener('keydown', (e) => {
+  if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+    e.preventDefault();
+  }
   switch (e.key) {
     case 'ArrowLeft':
       game.moveLeft();
