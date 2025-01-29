@@ -55,28 +55,39 @@
             fetch(host, { method: 'get' })
                 .then(res => res.json())
                 .then(data => {
-                    const html = data.reduce((acc, current) => {
-                        return acc += `<li>${current.brand} <button data-id=${current.id}>del</button></li>`
-                    }, '')
-                    app.innerHTML = `<ul>${html}</ul>`;
+                    render(data);
                 })
         })
 
-        const delBtns = document.querySelectorAll('delBtns');
-        console.log('---delBtns', delBtns);
 
-        if (delBtns.length) {
-            for (let i = 0; i< delBtns.length; i++) {
-                delBtns[i].addEventListener('click', () => {
-                    fetch(`${host}/${delBtns} {
-                        method: 'DELETE',
-                        body: JSON.stringify
+        function render(data) {
+            const html = data.reduce((acc, current) => {
+                return acc += `<li>${current.brand} <button class="delBtn" data-id=${current.id}>del</button></li>`
+            }, '')
+            app.innerHTML = `<ul>${html}</ul>`;
+
+            const delBtns = document.querySelectorAll('.delBtn');
+
+            if (delBtns.length) {
+                for (let i = 0; i < delBtns.length; i++) {
+                    delBtns[i].addEventListener('click', () => {
+                        deleteCar(delBtns[i].dataset.id);
                     })
-                })
+                }
             }
-            
         }
 
+        function deleteCar(id) {
+            fetch(`${host}/${id}`, {
+                method: 'DELETE',
+            }).then(res => {
+                fetch(host, { method: 'get' })
+                    .then(res => res.json())
+                    .then(data => {
+                        render(data);
+                    })
+            }).catch(err => console.log('err', err))
+        }
     </script>
 </body>
 

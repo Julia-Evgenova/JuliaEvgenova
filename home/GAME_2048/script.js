@@ -318,7 +318,7 @@ document.addEventListener('touchend', (e) => {
   render();
 }, { passive: false });
 
-//логика управления с клавиатуры
+// логика управления с клавиатуры
 document.addEventListener('keydown', (e) => {
   switch (e.key) {
     case 'ArrowLeft':

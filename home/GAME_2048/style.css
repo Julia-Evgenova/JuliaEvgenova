@@ -1,4 +1,4 @@
-/*  Стартовый экран  */
+
 .start-screen {
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@
     background-color: #567d2b;
 }
 
-/* ===== Контейнер с игрой ===== */
+/*  Контейнер с игрой */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -162,7 +162,7 @@ h1 {
     background-color: #567d2b;
 }
 
-/* Анимация «мигание» плитки */
+/* анимация «мигание» плитки */
 @keyframes tile-burst {
     0% {
         transform: scale(1);
@@ -184,7 +184,7 @@ h1 {
     animation: tile-burst 0.3s ease-out;
 }
 
-/* Индикатор загрузки */
+/* индикатор загрузки */
 #loading {
     position: fixed;
     top: 50%;
@@ -197,7 +197,7 @@ h1 {
     font-size: 18px;
 }
 
-/* Оформление плиток */
+/* оформление плиток */
 .tile-2 {
     background: #e8f5e9;
     color: #388e3c;
@@ -258,7 +258,6 @@ h1 {
     color: #ffffff;
 }
 
-/* Адаптив под разные экраны */
 @media (max-width: 480px) {
     .board {
         width: 260px;

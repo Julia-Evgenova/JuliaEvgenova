@@ -19,23 +19,17 @@ app.get('/cars', (request, response) => {
         if (err) {
             return console.error('err', err);
         } else {
-            console.log("Подключение к серверу MySQL успешно установлено");
+            console.log("Подключение к серверу MySQL успешно установлено1");
 
             connection.query('SELECT * FROM Cars', (err, result, fields) => {
-                console.log('-----result', result);
-
                 response.json(result)
             })
-
-            connection.end();
         }
     })
 
 })
 
 app.post('/cars', jsonParser, (req, res) => {
-    console.log('---req', req.body);
-
     const car = req.body;
     if (!car) return response.sendStatus(400);
 
@@ -43,8 +37,7 @@ app.post('/cars', jsonParser, (req, res) => {
         if (err) {
             return console.error('err', err);
         } else {
-            console.log("Подключение к серверу MySQL успешно установлено");
-            console.log('------111', `INSERT INTO Cars(brand, model, color, imgUrl, price, year) VALUES (${car.brand}, ${car.model}, ${car.color}, ${car.imgUrl}, ${car.price}, ${car.year})`);
+            console.log("Подключение к серверу MySQL успешно установлено2");
             connection.query(`INSERT INTO Cars(brand, model, color, imgUrl, price, year) VALUES ('${car.brand}', '${car.model}', '${car.color}', '${car.imgUrl}', '${car.price}', '${car.year}')`, (err, result, fields) => {
 
                 if (!err) {
@@ -55,13 +48,26 @@ app.post('/cars', jsonParser, (req, res) => {
             })
         }
     })
-    // connection.end();
 })
 
-app.delete('/')
+app.delete('/cars/:id', (req, res) => {
+    console.log('-----req', req.params.id);
 
-app.get('/car1', (request, response) => {
-    response.send("<h2>Привет test222</h2>");
+    connection.connect((err) => {
+        if (err) {
+            return console.error('err', err);
+        } else {
+            console.log("Подключение к серверу MySQL успешно установлено3");
+            connection.query(`DELETE FROM Cars WHERE id='${req.params.id}'`, (err, result, fields) => {
+
+                if (!err) {
+                    res.sendStatus(200);
+                } else {
+                    res.sendStatus(400);
+                }
+            })
+        }
+    })
 })
 
 app.listen('3000', () => {
