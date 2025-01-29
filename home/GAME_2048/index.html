@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2048</title>
-    <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2048</title>
+  <link rel="icon" href="data:,">
+  <!-- Подключаем стили -->
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <!--стартовый экран -->
-    <div class="start-screen" id="startScreen">
-        <h2>Добро пожаловать в 2048!</h2>
-        <button class="btn-start" id="playBtn">Играть в 2048</button>
-        <button class="btn-exit-app" id="exitAppBtn">Выход</button>
+  <!-- === Стартовый экран === -->
+  <div class="start-screen" id="startScreen">
+    <h2>Добро пожаловать в 2048!</h2>
+    <button class="btn-start" id="playBtn">Играть в 2048</button>
+    <button class="btn-exit-app" id="exitAppBtn">Выход</button>
+  </div>
+
+  <!-- === Экран игры === -->
+  <div class="game-container" id="gameContainer">
+    <button id="toggle-sound" class="btn-sound">🔊</button>
+    <div class="header">
+      <h1>Игра 2048</h1>
+      <p class="score-container">Счёт: <span id="score">0</span></p>
+    </div>
+    <div class="board" id="board">
+      <!-- ячейки генерируем динамически -->
     </div>
 
-    <!--Экран игры -->
-    <div class="game-container" id="gameContainer">
-        <button id="toggle-sound" class="btn-sound">🔊</button>
-        <div class="header">
-            <h1>Игра 2048</h1>
-            <p class="score-container">Счёт: <span id="score">0</span></p>
-        </div>
-        <div class="board" id="board">
-        <!-- ячейки генерим динамически -->
-        </div>
-
-        <div id="rulesHeader" class="rules-toggle">Правила ▼</div>
-        <div id="rulesContent" class="rules-content" style="display: none;">
-            <h2>Как играть в 2048?</h2>
-            <p>Цель игры – получить плитку с числом <strong>2048</strong>. Плитки сдвигаются, объединяются и удваивают
-                значение.</p>
-            <p>Игра заканчивается, когда вы не можете сделать ни одного хода (все клетки заполнены, и нет возможных
-                объединений).</p>
-        </div>
-
-        <button class="btn-restart" id="restartBtn">Новая игра</button>
-        <!-- кнопка «Выйти» (возвращение на стартовый экран) -->
-        <button class="btn-exit-game" id="exitGameBtn">Выйти</button>
+    <div id="rulesHeader" class="rules-toggle">Правила ▼</div>
+    <div id="rulesContent" class="rules-content" style="display: none;">
+      <h2>Как играть в 2048?</h2>
+      <p>
+        Цель игры – получить плитку с числом <strong>2048</strong>.
+        Плитки сдвигаются, объединяются и удваивают значение.
+      </p>
+      <p>
+        Игра заканчивается, когда вы не можете сделать ни одного хода
+        (все клетки заполнены, и нет возможных объединений).
+      </p>
     </div>
 
-    <div id="loading" style="display:none;">Загрузка данных...</div>
+    <button class="btn-restart" id="restartBtn">Новая игра</button>
+    <!-- Кнопка «Выйти» (возвращение на стартовый экран) -->
+    <button class="btn-exit-game" id="exitGameBtn">Выйти</button>
+  </div>
 
-    <script src="script.js" defer></script>
+  <div id="loading" style="display:none;">Загрузка данных...</div>
+
+  <!-- Подключаем скрипт ( defer, чтобы дождаться HTML ) -->
+  <script src="script.js" defer></script>
 </body>
-
 </html>

@@ -1,4 +1,6 @@
-
+/*************************************
+ * Классы и основная логика игры 2048
+ *************************************/
 class Tile {
   constructor(value, row, col) {
     this.value = value;
@@ -14,12 +16,12 @@ class Game {
     this.score = 0;
   }
 
-  // создание пустого поля
+  // Создание пустого поля
   createEmptyBoard() {
     return Array.from({ length: this.size }, () => Array(this.size).fill(null));
   }
 
-  // инициализация игры
+  // Инициализация игры
   init() {
     this.grid = this.createEmptyBoard();
     this.score = 0;
@@ -28,12 +30,14 @@ class Game {
     this.saveStateToLocalStorage();
   }
 
-  // добавить новую плитку на пустое место
+  // Добавить новую плитку
   addRandomTile() {
     const emptyCells = [];
     for (let r = 0; r < this.size; r++) {
       for (let c = 0; c < this.size; c++) {
-        if (!this.grid[r][c]) emptyCells.push({ r, c });
+        if (!this.grid[r][c]) {
+          emptyCells.push({ r, c });
+        }
       }
     }
     if (emptyCells.length) {
@@ -43,7 +47,7 @@ class Game {
     }
   }
 
-  // движение влево
+  // Движение влево
   moveLeft() {
     let moved = false;
     for (let r = 0; r < this.size; r++) {
@@ -70,7 +74,7 @@ class Game {
     }
   }
 
-  // вправо
+  // Движение вправо
   moveRight() {
     let moved = false;
     for (let r = 0; r < this.size; r++) {
@@ -97,7 +101,7 @@ class Game {
     }
   }
 
-  // вверх
+  // Движение вверх
   moveUp() {
     let moved = false;
     for (let c = 0; c < this.size; c++) {
@@ -131,7 +135,7 @@ class Game {
     }
   }
 
-  // вниз
+  // Движение вниз
   moveDown() {
     let moved = false;
     for (let c = 0; c < this.size; c++) {
@@ -165,16 +169,16 @@ class Game {
     }
   }
 
-  // сохранение состояния в LocalStorage
+  // Сохранение состояния в LocalStorage
   saveStateToLocalStorage() {
     const state = {
       grid: this.grid.map(row => row.map(tile => tile ? tile.value : null)),
-      score: this.score,
+      score: this.score
     };
     localStorage.setItem('2048-game', JSON.stringify(state));
   }
 
-  // загрузка состояния из LocalStorage
+  // Загрузка состояния из LocalStorage
   loadStateFromLocalStorage() {
     const state = JSON.parse(localStorage.getItem('2048-game'));
     if (state) {
@@ -186,32 +190,34 @@ class Game {
   }
 }
 
-// звук
-let isMuted = false;         // флаг для отключения звука
+/*************************************
+ * Звуковое сопровождение
+ *************************************/
+let isMuted = false;
 let isSoundInitialized = false;
 const soundEffects = {
   move: null,
   merge: null
 };
 
-// инициализация звуков
+// Инициализация звуков
 function initializeSounds() {
-  if (isSoundInitialized) return; // если уже инициализировали, выходим
+  if (isSoundInitialized) return;
   soundEffects.move = new Audio('move.mp3');
   soundEffects.merge = new Audio('merge.mp3');
   // «тихое» воспроизведение для активации звука
-  soundEffects.move.play().catch(() => { });
-  soundEffects.merge.play().catch(() => { });
+  soundEffects.move.play().catch(() => {});
+  soundEffects.merge.play().catch(() => {});
   isSoundInitialized = true;
   console.log('Звуки инициализированы');
 }
 
-// воспроизведение звука
+// Воспроизведение звука
 function playSound(type) {
   if (isMuted || !isSoundInitialized) return;
   const audio = soundEffects[type];
   if (audio) {
-    const clone = audio.cloneNode(); // клонируем для «накладок»
+    const clone = audio.cloneNode();
     clone.currentTime = 0;
     clone.play().catch(error => {
       console.error(`Ошибка воспроизведения звука (${type}):`, error);
@@ -219,8 +225,10 @@ function playSound(type) {
   }
 }
 
-// основная логика приложения
-const game = new Game();            // Экземпляр игры
+/*************************************
+ * Основная логика приложения
+ *************************************/
+const game = new Game();
 const boardEl = document.getElementById('board');
 const scoreEl = document.getElementById('score');
 const restartBtn = document.getElementById('restartBtn');
@@ -229,7 +237,7 @@ const rulesContent = document.getElementById('rulesContent');
 const soundButton = document.getElementById('toggle-sound');
 const loadingEl = document.getElementById('loading');
 
-// функция рендера игрового поля
+// Функция рендера
 function render() {
   boardEl.innerHTML = '';
   for (let r = 0; r < game.size; r++) {
@@ -239,7 +247,7 @@ function render() {
       cellEl.classList.add('cell');
       if (tile) {
         cellEl.textContent = tile.value;
-        // если значение плитки > 2048, добавим класс "tile-super"
+        // если значение плитки > 2048, добавляем класс "tile-super"
         cellEl.classList.add(`tile-${tile.value <= 2048 ? tile.value : 'super'}`);
       }
       boardEl.appendChild(cellEl);
@@ -248,20 +256,20 @@ function render() {
   scoreEl.textContent = game.score;
 }
 
-// кнопка звука
+// Кнопка звука
 soundButton.addEventListener('click', () => {
   isMuted = !isMuted;
   soundButton.classList.toggle('muted', isMuted);
   soundButton.textContent = isMuted ? '🔇' : '🔊';
 });
 
-// отправка счёта на сервер 
+// Отправка счёта на сервер (пример)
 async function sendScoreToServer(score) {
   try {
     const response = await fetch('http://fe.it-academy.by/TestForm.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `score=${score}`,
+      body: `score=${score}`
     });
     if (response.ok) {
       console.log('Score sent successfully!');
@@ -273,25 +281,25 @@ async function sendScoreToServer(score) {
   }
 }
 
-// начинаем новую игру
+// Новая игра
 restartBtn.addEventListener('click', () => {
   game.init();
   render();
 });
 
-// показ/скрытие правил
+// Показ/скрытие правил
 rulesHeader.addEventListener('click', () => {
   const isHidden = rulesContent.style.display === 'none';
   rulesContent.style.display = isHidden ? 'block' : 'none';
   rulesHeader.textContent = isHidden ? 'Правила ▲' : 'Правила ▼';
 });
 
-// инициализация звуков при первом взаимодействии
+// Инициализация звуков при первом взаимодействии
 document.addEventListener('click', initializeSounds, { once: true });
 document.addEventListener('keydown', initializeSounds, { once: true });
 document.addEventListener('touchstart', initializeSounds, { once: true });
 
-// логика свайпов на мобильных устройствах
+// Логика свайпов на мобильных
 let touchStartX = 0, touchStartY = 0;
 document.addEventListener('touchstart', (e) => {
   const touch = e.touches[0];
@@ -307,7 +315,6 @@ document.addEventListener('touchend', (e) => {
   const touch = e.changedTouches[0];
   const deltaX = touch.clientX - touchStartX;
   const deltaY = touch.clientY - touchStartY;
-
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
     if (deltaX > 50) game.moveRight();
     if (deltaX < -50) game.moveLeft();
@@ -318,7 +325,7 @@ document.addEventListener('touchend', (e) => {
   render();
 }, { passive: false });
 
-//логика управления с клавиатуры
+// Логика управления с клавиатуры
 document.addEventListener('keydown', (e) => {
   switch (e.key) {
     case 'ArrowLeft':
@@ -337,7 +344,7 @@ document.addEventListener('keydown', (e) => {
   render();
 });
 
-// при закрытии вкладки/обновлении страницы
+// При закрытии вкладки / обновлении страницы
 window.addEventListener('beforeunload', (e) => {
   if (game.grid.some(row => row.some(cell => cell))) {
     e.preventDefault();
@@ -346,38 +353,40 @@ window.addEventListener('beforeunload', (e) => {
   }
 });
 
-//SPA: переключение экранов (стартовый и игровой)
+/*************************************
+ * SPA: переключение экранов
+ *************************************/
 const startScreen = document.getElementById('startScreen');
 const gameContainer = document.getElementById('gameContainer');
 const playBtn = document.getElementById('playBtn');
 const exitAppBtn = document.getElementById('exitAppBtn');
 const exitGameBtn = document.getElementById('exitGameBtn');
 
-// по умолчанию показывается стартовый экран, игра скрыта
-window.addEventListener('load', () => {
-  //ждём действий пользователя
-});
+// По умолчанию показывается стартовый экран, игра скрыта
+// window.addEventListener('load', () => {
+//   // Ничего не меняем, ждём действий пользователя
+// });
 
-//нажатие на «Играть в 2048»
+// Нажатие на «Играть в 2048»
 playBtn.addEventListener('click', () => {
-  // Загружаем игру из localStorage, если она есть
+  // Загружаем игру из localStorage (если есть)
   game.loadStateFromLocalStorage();
   render();
-  // скрываем стартовый экран, показываем игру
+  // Скрываем стартовый экран, показываем игру
   startScreen.style.display = 'none';
   gameContainer.style.display = 'flex';
 });
 
-//нажатие на «Выход» на стартовом экране
+// Нажатие на «Выход» на стартовом экране
 exitAppBtn.addEventListener('click', () => {
   alert('Пожалуйста, закройте вкладку вручную.');
 });
 
-//кнопка «Выйти» внутри игры — возвращаемся на стартовый экран
+// Кнопка «Выйти» внутри игры — возвращаемся на стартовый экран
 exitGameBtn.addEventListener('click', () => {
-  // при необходимости сохраняем состояние игры
+  // Сохраняем состояние игры
   game.saveStateToLocalStorage();
-  // скрываем игру, показываем стартовый экран
+  // Скрываем игру, показываем стартовый экран
   gameContainer.style.display = 'none';
   startScreen.style.display = 'flex';
 });
