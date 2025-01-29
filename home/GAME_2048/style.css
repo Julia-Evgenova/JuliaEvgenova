@@ -1,4 +1,4 @@
-/* ========== Стартовый экран ========== */
+/*  Стартовый экран  */
 .start-screen {
     display: flex;
     flex-direction: column;
@@ -6,17 +6,17 @@
     justify-content: center;
     min-height: 100vh;
     background: url("image/svetlo-zelenyi-tsvet-1.webp") center/cover no-repeat;
-  }
-  
-  .start-screen h2 {
+}
+
+.start-screen h2 {
     color: white;
     margin-bottom: 20px;
     font-size: 28px;
     text-shadow: 1px 1px 2px #333;
-  }
-  
-  .btn-start,
-  .btn-exit-app {
+}
+
+.btn-start,
+.btn-exit-app {
     padding: 15px 30px;
     margin: 10px;
     background-color: #679334;
@@ -27,27 +27,27 @@
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s;
-  }
-  
-  .btn-start:hover,
-  .btn-exit-app:hover {
+}
+
+.btn-start:hover,
+.btn-exit-app:hover {
     background-color: #567d2b;
-  }
-  
-  /* ========== Общие стили и сброс ========== */
-  * {
+}
+
+/* ===== Контейнер с игрой ===== */
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
-  
-  body {
+}
+
+body {
     font-family: sans-serif;
-  }
-  
-  /* ========== Контейнер с игрой ========== */
-  .game-container {
-    display: none; /* изначально скрываем экран игры */
+}
+
+.game-container {
+    display: none;
+    /* изначально скрываем экран игры */
     flex-direction: column;
     align-items: center;
     gap: 1rem;
@@ -58,13 +58,13 @@
     min-height: 100vh;
     justify-content: center;
     background: url("image/svetlo-zelenyi-tsvet-1.webp") center/cover no-repeat;
-  }
-  
-  .header {
+}
+
+.header {
     text-align: center;
-  }
-  
-  .board {
+}
+
+.board {
     width: 400px;
     height: 400px;
     display: grid;
@@ -73,9 +73,9 @@
     gap: 10px;
     background: #8f999d;
     border-radius: 6px;
-  }
-  
-  .cell {
+}
+
+.cell {
     background: rgba(238, 228, 218, 0.35);
     border-radius: 3px;
     display: flex;
@@ -84,18 +84,18 @@
     font-size: 24px;
     font-weight: bold;
     color: #776e65;
-  }
-  
-  h1 {
+}
+
+h1 {
     color: white;
     font-size: 30px;
-  }
-  
-  .score-container {
+}
+
+.score-container {
     color: white;
-  }
-  
-  .btn-sound {
+}
+
+.btn-sound {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -109,24 +109,24 @@
     color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
-  }
-  
-  .btn-sound.muted {
+}
+
+.btn-sound.muted {
     background-color: #ccc;
     color: #333;
-  }
-  
-  .btn-sound:hover {
+}
+
+.btn-sound:hover {
     background-color: #567d2b;
-  }
-  
-  .rules-toggle {
+}
+
+.rules-toggle {
     cursor: pointer;
     color: white;
     font-weight: bold;
-  }
-  
-  .rules-content {
+}
+
+.rules-content {
     max-width: 600px;
     margin-bottom: 2rem;
     background: #7c827c;
@@ -134,9 +134,9 @@
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     color: white;
-  }
-  
-  .btn-restart {
+}
+
+.btn-restart {
     padding: 10px 20px;
     background-color: #679334;
     color: white;
@@ -144,9 +144,9 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .btn-exit-game {
+}
+
+.btn-exit-game {
     padding: 10px 20px;
     background-color: #679334;
     color: white;
@@ -155,34 +155,37 @@
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-  }
-  
-  .btn-restart:hover,
-  .btn-exit-game:hover {
+}
+
+.btn-restart:hover,
+.btn-exit-game:hover {
     background-color: #567d2b;
-  }
-  
-  /* Анимация «мигание» плитки */
-  @keyframes tile-burst {
+}
+
+/* Анимация «мигание» плитки */
+@keyframes tile-burst {
     0% {
-      transform: scale(1);
-      opacity: 1;
+        transform: scale(1);
+        opacity: 1;
     }
+
     50% {
-      transform: scale(1.2);
-      opacity: 0.8;
+        transform: scale(1.2);
+        opacity: 0.8;
     }
+
     100% {
-      transform: scale(1);
-      opacity: 1;
+        transform: scale(1);
+        opacity: 1;
     }
-  }
-  .tile-burst {
+}
+
+.tile-burst {
     animation: tile-burst 0.3s ease-out;
-  }
-  
-  /* Индикатор загрузки */
-  #loading {
+}
+
+/* Индикатор загрузки */
+#loading {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -192,107 +195,131 @@
     padding: 1rem 2rem;
     border-radius: 10px;
     font-size: 18px;
-  }
-  
-  /* Плитки */
-  .tile-2 {
+}
+
+/* Оформление плиток */
+.tile-2 {
     background: #e8f5e9;
     color: #388e3c;
-  }
-  .tile-4 {
+}
+
+.tile-4 {
     background: #c8e6c9;
     color: #2e7d32;
-  }
-  .tile-8 {
+}
+
+.tile-8 {
     background: #a5d6a7;
     color: #1b5e20;
-  }
-  .tile-16 {
+}
+
+.tile-16 {
     background: #81c784;
     color: #ffffff;
-  }
-  .tile-32 {
+}
+
+.tile-32 {
     background: #66bb6a;
     color: #ffffff;
-  }
-  .tile-64 {
+}
+
+.tile-64 {
     background: #4caf50;
     color: #ffffff;
-  }
-  .tile-128 {
+}
+
+.tile-128 {
     background: #43a047;
     color: #ffffff;
-  }
-  .tile-256 {
+}
+
+.tile-256 {
     background: #388e3c;
     color: #ffffff;
-  }
-  .tile-512 {
+}
+
+.tile-512 {
     background: #2e7d32;
     color: #ffffff;
-  }
-  .tile-1024 {
+}
+
+.tile-1024 {
     background: #1b5e20;
     color: #ffffff;
-  }
-  .tile-2048 {
+}
+
+.tile-2048 {
     background: #145a32;
     color: #ffffff;
-  }
-  .tile-super {
+}
+
+.tile-super {
     background: #0b3d16;
     color: #ffffff;
-  }
-  
-  /* Адаптивность */
-  @media (max-width: 480px) {
+}
+
+/* Адаптив под разные экраны */
+@media (max-width: 480px) {
     .board {
-      width: 260px;
-      height: 260px;
+        width: 260px;
+        height: 260px;
     }
+
     .cell {
-      width: 50px;
-      height: 50px;
-      font-size: 18px;
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
     }
+
     .rules-content {
-      font-size: 10px;
-      padding: 5px;
+        max-width: 600px;
+        margin-bottom: 2rem;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: white;
+        font-size: 10px;
+        padding: 5px;
+        margin-bottom: 0;
     }
+
     h2 {
-      font-size: 14px;
+        font-size: 14px;
     }
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .board {
-      width: 270px;
-      height: 270px;
+        width: 270px;
+        height: 270px;
     }
+
     .cell {
-      width: 60px;
-      height: 60px;
-      font-size: 20px;
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
     }
-  }
-  
-  @media (min-width: 1024px) {
+}
+
+@media (min-width: 1024px) {
     .board {
-      width: 600px;
-      height: 600px;
+        width: 600px;
+        height: 600px;
     }
+
     .cell {
-      font-size: 32px;
+        font-size: 32px;
     }
+
     .game-container {
-      padding: 3rem;
+        padding: 3rem;
     }
+
     .btn-restart {
-      padding: 15px 30px;
-      font-size: 18px;
+        padding: 15px 30px;
+        font-size: 18px;
     }
+
     .score-container {
-      font-size: 24px;
+        font-size: 24px;
     }
-  }
-  
+}
