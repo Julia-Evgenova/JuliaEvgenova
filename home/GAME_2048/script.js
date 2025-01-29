@@ -346,7 +346,7 @@ window.addEventListener('beforeunload', (e) => {
   }
 });
 
-//SPA: переключение экранов (стартовый и игровой)
+// SPA: переключение экранов (стартовый и игровой)
 const startScreen = document.getElementById('startScreen');
 const gameContainer = document.getElementById('gameContainer');
 const playBtn = document.getElementById('playBtn');
