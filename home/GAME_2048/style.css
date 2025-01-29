@@ -1,3 +1,40 @@
+/* ===== Стартовый экран ===== */
+.start-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: url("image/svetlo-zelenyi-tsvet-1.webp") center/cover no-repeat;
+}
+
+.start-screen h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 28px;
+    text-shadow: 1px 1px 2px #333;
+}
+
+.btn-start,
+.btn-exit-app {
+    padding: 15px 30px;
+    margin: 10px;
+    background-color: #679334;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+.btn-start:hover,
+.btn-exit-app:hover {
+    background-color: #567d2b;
+}
+
+/* ===== Контейнер с игрой ===== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,81 +42,22 @@
 }
 
 body {
-    background: url(image/svetlo-zelenyi-tsvet-1.webp) center/cover no-repeat;
     font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-h1 {
-    color: white;
-    font-size: 30px;
-}
-
-.score-container {
-    color: white;
-}
-
-.btn-sound {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
-    z-index: 10;
-    padding: 5px;
-    font-size: 22px; 
-    border: none;
-    border-radius: 25%; 
-    cursor: pointer;
-    background-color: #679334;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    transition: background-color 0.3s ease; 
-}
-
-.btn-sound.muted {
-    background-color: #ccc; 
-    color: #333;
-}
-
-.btn-sound:hover {
-    background-color: #567d2b;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-}
-
-.rules-toggle {
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-}
-
-.rules-content {
-    max-width: 600px;
-    margin-bottom: 2rem;
-    background: #7c827c;
-    border-radius: 5px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: white;
 }
 
 .game-container {
-    display: flex;
+    display: none;
+    /* изначально скрываем экран игры */
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    background: #7c827cba;
     position: relative;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    min-height: 100vh;
+    justify-content: center;
+    background: url("image/svetlo-zelenyi-tsvet-1.webp") center/cover no-repeat;
 }
 
 .header {
@@ -108,7 +86,83 @@ h1 {
     color: #776e65;
 }
 
-/* мигание плитки */
+h1 {
+    color: white;
+    font-size: 30px;
+}
+
+.score-container {
+    color: white;
+}
+
+.btn-sound {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    padding: 5px;
+    font-size: 22px;
+    border: none;
+    border-radius: 25%;
+    cursor: pointer;
+    background-color: #679334;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.btn-sound.muted {
+    background-color: #ccc;
+    color: #333;
+}
+
+.btn-sound:hover {
+    background-color: #567d2b;
+}
+
+.rules-toggle {
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.rules-content {
+    max-width: 600px;
+    margin-bottom: 2rem;
+    background: #7c827c;
+    border-radius: 5px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.btn-restart {
+    padding: 10px 20px;
+    background-color: #679334;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-exit-game {
+    padding: 10px 20px;
+    background-color: #679334;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-restart:hover,
+.btn-exit-game:hover {
+    background-color: #567d2b;
+}
+
+/* Анимация «мигание» плитки */
 @keyframes tile-burst {
     0% {
         transform: scale(1);
@@ -130,7 +184,7 @@ h1 {
     animation: tile-burst 0.3s ease-out;
 }
 
-/* индикатор загрузки */
+/* Индикатор загрузки */
 #loading {
     position: fixed;
     top: 50%;
@@ -143,6 +197,7 @@ h1 {
     font-size: 18px;
 }
 
+/* Оформление плиток */
 .tile-2 {
     background: #e8f5e9;
     color: #388e3c;
@@ -203,16 +258,7 @@ h1 {
     color: #ffffff;
 }
 
-.btn-restart {
-    padding: 10px 20px;
-    background-color: #679334;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
+/* Адаптив под разные экраны */
 @media (max-width: 480px) {
     .board {
         width: 260px;

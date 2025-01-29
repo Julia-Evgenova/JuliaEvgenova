@@ -14,10 +14,12 @@ class Game {
     this.score = 0;
   }
 
+  // создание пустого поля
   createEmptyBoard() {
     return Array.from({ length: this.size }, () => Array(this.size).fill(null));
   }
 
+  // инициализация игры
   init() {
     this.grid = this.createEmptyBoard();
     this.score = 0;
@@ -26,6 +28,7 @@ class Game {
     this.saveStateToLocalStorage();
   }
 
+  // добавить новую плитку на пустое место
   addRandomTile() {
     const emptyCells = [];
     for (let r = 0; r < this.size; r++) {
@@ -40,6 +43,7 @@ class Game {
     }
   }
 
+  // движение влево
   moveLeft() {
     let moved = false;
     for (let r = 0; r < this.size; r++) {
@@ -47,7 +51,6 @@ class Game {
       for (let c = 0; c < row.length - 1; c++) {
         if (row[c] && row[c + 1] && row[c].value === row[c + 1].value) {
           row[c].value *= 2;
-
           playSound('merge');
           this.score += row[c].value;
           row.splice(c + 1, 1);
@@ -67,6 +70,7 @@ class Game {
     }
   }
 
+  // вправо
   moveRight() {
     let moved = false;
     for (let r = 0; r < this.size; r++) {
@@ -93,6 +97,7 @@ class Game {
     }
   }
 
+  // вверх
   moveUp() {
     let moved = false;
     for (let c = 0; c < this.size; c++) {
@@ -105,7 +110,6 @@ class Game {
       for (let i = 0; i < col.length - 1; i++) {
         if (col[i] && col[i + 1] && col[i].value === col[i + 1].value) {
           col[i].value *= 2;
-
           playSound('move');
           this.score += col[i].value;
           col.splice(i + 1, 1);
@@ -127,6 +131,7 @@ class Game {
     }
   }
 
+  // вниз
   moveDown() {
     let moved = false;
     for (let c = 0; c < this.size; c++) {
@@ -139,7 +144,6 @@ class Game {
       for (let i = col.length - 1; i > 0; i--) {
         if (col[i] && col[i - 1] && col[i].value === col[i - 1].value) {
           col[i].value *= 2;
-
           playSound('move');
           this.score += col[i].value;
           col.splice(i - 1, 1);
@@ -161,6 +165,7 @@ class Game {
     }
   }
 
+  // сохранение состояния в LocalStorage
   saveStateToLocalStorage() {
     const state = {
       grid: this.grid.map(row => row.map(tile => tile ? tile.value : null)),
@@ -169,6 +174,7 @@ class Game {
     localStorage.setItem('2048-game', JSON.stringify(state));
   }
 
+  // загрузка состояния из LocalStorage
   loadStateFromLocalStorage() {
     const state = JSON.parse(localStorage.getItem('2048-game'));
     if (state) {
@@ -180,51 +186,77 @@ class Game {
   }
 }
 
-let isMuted = false;
+// звук
+let isMuted = false;         // флаг для отключения звука
 let isSoundInitialized = false;
-
 const soundEffects = {
   move: null,
-  merge: null,
+  merge: null
 };
 
-const initializeSounds = () => {
-  if (isSoundInitialized) return; //eсли уже инициализировано, ничего не делаем
-
+// инициализация звуков
+function initializeSounds() {
+  if (isSoundInitialized) return; // если уже инициализировали, выходим
   soundEffects.move = new Audio('move.mp3');
   soundEffects.merge = new Audio('merge.mp3');
-
-  //тихое воспроизведение для активации звука в браузерах
+  // «тихое» воспроизведение для активации звука
   soundEffects.move.play().catch(() => { });
   soundEffects.merge.play().catch(() => { });
-
-  isSoundInitialized = true; //отмечаем, что звуки инициализированы
+  isSoundInitialized = true;
   console.log('Звуки инициализированы');
-};
+}
 
-const playSound = (type) => {
-  if (isMuted || !isSoundInitialized) return; // если звук выключен или не инициализирован, ничего не делаем
-
+// воспроизведение звука
+function playSound(type) {
+  if (isMuted || !isSoundInitialized) return;
   const audio = soundEffects[type];
   if (audio) {
-    // Используем cloneNode(), чтобы создать независимую копию звука
-    const clone = audio.cloneNode();
-    clone.currentTime = 0; //  устанавливаем время начала
-    clone.play().catch((error) => {
+    const clone = audio.cloneNode(); // клонируем для «накладок»
+    clone.currentTime = 0;
+    clone.play().catch(error => {
       console.error(`Ошибка воспроизведения звука (${type}):`, error);
     });
   }
-};
+}
 
+// основная логика приложения
+const game = new Game();            // Экземпляр игры
+const boardEl = document.getElementById('board');
+const scoreEl = document.getElementById('score');
+const restartBtn = document.getElementById('restartBtn');
+const rulesHeader = document.getElementById('rulesHeader');
+const rulesContent = document.getElementById('rulesContent');
 const soundButton = document.getElementById('toggle-sound');
+const loadingEl = document.getElementById('loading');
+
+// функция рендера игрового поля
+function render() {
+  boardEl.innerHTML = '';
+  for (let r = 0; r < game.size; r++) {
+    for (let c = 0; c < game.size; c++) {
+      const tile = game.grid[r][c];
+      const cellEl = document.createElement('div');
+      cellEl.classList.add('cell');
+      if (tile) {
+        cellEl.textContent = tile.value;
+        // если значение плитки > 2048, добавим класс "tile-super"
+        cellEl.classList.add(`tile-${tile.value <= 2048 ? tile.value : 'super'}`);
+      }
+      boardEl.appendChild(cellEl);
+    }
+  }
+  scoreEl.textContent = game.score;
+}
+
+// кнопка звука
 soundButton.addEventListener('click', () => {
   isMuted = !isMuted;
   soundButton.classList.toggle('muted', isMuted);
   soundButton.textContent = isMuted ? '🔇' : '🔊';
 });
 
-
-const sendScoreToServer = async (score) => {
+// отправка счёта на сервер 
+async function sendScoreToServer(score) {
   try {
     const response = await fetch('http://fe.it-academy.by/TestForm.php', {
       method: 'POST',
@@ -239,63 +271,28 @@ const sendScoreToServer = async (score) => {
   } catch (error) {
     console.error('Error:', error);
   }
-};
-
-const game = new Game();
-const boardEl = document.getElementById('board');
-const scoreEl = document.getElementById('score');
-const restartBtn = document.getElementById('restartBtn');
-const rulesHeader = document.getElementById('rulesHeader');
-const rulesContent = document.getElementById('rulesContent');
-
-function render() {
-  boardEl.innerHTML = '';
-  for (let r = 0; r < game.size; r++) {
-    for (let c = 0; c < game.size; c++) {
-      const tile = game.grid[r][c];
-      const cellEl = document.createElement('div');
-      cellEl.classList.add('cell');
-      if (tile) {
-        cellEl.textContent = tile.value;
-        cellEl.classList.add(`tile-${tile.value <= 2048 ? tile.value : 'super'}`);
-      }
-      boardEl.appendChild(cellEl);
-    }
-  }
-  scoreEl.textContent = game.score;
 }
 
-
-window.addEventListener('load', () => {
-  game.loadStateFromLocalStorage();
-  render();
-});
-
-window.addEventListener('beforeunload', (e) => {
-  if (game.grid.some(row => row.some(cell => cell))) {
-    e.preventDefault();
-    e.returnValue = '';
-    sendScoreToServer(game.score);
-  }
-});
-
-document.addEventListener('click', initializeSounds, { once: true });
-document.addEventListener('keydown', initializeSounds, { once: true }); // Выполняется один раз
-document.addEventListener('touchstart', initializeSounds, { once: true }); // Выполняется один раз
-
+// начинаем новую игру
 restartBtn.addEventListener('click', () => {
   game.init();
   render();
 });
 
+// показ/скрытие правил
 rulesHeader.addEventListener('click', () => {
   const isHidden = rulesContent.style.display === 'none';
   rulesContent.style.display = isHidden ? 'block' : 'none';
   rulesHeader.textContent = isHidden ? 'Правила ▲' : 'Правила ▼';
 });
 
-let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
+// инициализация звуков при первом взаимодействии
+document.addEventListener('click', initializeSounds, { once: true });
+document.addEventListener('keydown', initializeSounds, { once: true });
+document.addEventListener('touchstart', initializeSounds, { once: true });
 
+// логика свайпов на мобильных устройствах
+let touchStartX = 0, touchStartY = 0;
 document.addEventListener('touchstart', (e) => {
   const touch = e.touches[0];
   touchStartX = touch.clientX;
@@ -308,11 +305,8 @@ document.addEventListener('touchmove', (e) => {
 
 document.addEventListener('touchend', (e) => {
   const touch = e.changedTouches[0];
-  touchEndX = touch.clientX;
-  touchEndY = touch.clientY;
-
-  const deltaX = touchEndX - touchStartX;
-  const deltaY = touchEndY - touchStartY;
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
 
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
     if (deltaX > 50) game.moveRight();
@@ -324,6 +318,7 @@ document.addEventListener('touchend', (e) => {
   render();
 }, { passive: false });
 
+// логика управления с клавиатуры
 document.addEventListener('keydown', (e) => {
   switch (e.key) {
     case 'ArrowLeft':
@@ -342,4 +337,47 @@ document.addEventListener('keydown', (e) => {
   render();
 });
 
+// при закрытии вкладки/обновлении страницы
+window.addEventListener('beforeunload', (e) => {
+  if (game.grid.some(row => row.some(cell => cell))) {
+    e.preventDefault();
+    e.returnValue = '';
+    sendScoreToServer(game.score);
+  }
+});
 
+//SPA: переключение экранов (стартовый и игровой)
+const startScreen = document.getElementById('startScreen');
+const gameContainer = document.getElementById('gameContainer');
+const playBtn = document.getElementById('playBtn');
+const exitAppBtn = document.getElementById('exitAppBtn');
+const exitGameBtn = document.getElementById('exitGameBtn');
+
+// по умолчанию показывается стартовый экран, игра скрыта
+window.addEventListener('load', () => {
+  //ждём действий пользователя
+});
+
+//нажатие на «Играть в 2048»
+playBtn.addEventListener('click', () => {
+  // Загружаем игру из localStorage, если она есть
+  game.loadStateFromLocalStorage();
+  render();
+  // скрываем стартовый экран, показываем игру
+  startScreen.style.display = 'none';
+  gameContainer.style.display = 'flex';
+});
+
+//нажатие на «Выход» на стартовом экране
+exitAppBtn.addEventListener('click', () => {
+  alert('Пожалуйста, закройте вкладку вручную.');
+});
+
+//кнопка «Выйти» внутри игры — возвращаемся на стартовый экран
+exitGameBtn.addEventListener('click', () => {
+  // при необходимости сохраняем состояние игры
+  game.saveStateToLocalStorage();
+  // скрываем игру, показываем стартовый экран
+  gameContainer.style.display = 'none';
+  startScreen.style.display = 'flex';
+});

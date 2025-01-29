@@ -8,42 +8,51 @@
 </head>
 
 <body>
-
     <div id="app"></div>
     <button id="btn">click</button>
 
     <hr>
 
     <div id="form">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
+        <input type="text" name="brand" placeholder="brand"><br>
+        <input type="text" name="model" placeholder="model"><br>
+        <input type="text" name="color" placeholder="color"><br>
+        <input type="text" name="imgUrl" placeholder="imgUrl"><br>
+        <input type="text" name="price" placeholder="price"><br>
+        <input type="text" name="year" placeholder="year"><br>
+        <button id="btnAdd">add</button>
     </div>
 
     <script>
-
-        const host = ''
+        const host = 'http://localhost:3000/cars';
         const btn = document.getElementById('btn');
         const app = document.getElementById('app');
         const btnAdd = document.getElementById('btnAdd');
         const form = document.getElementById('form');
 
-        btnAdd.addEventListener('click'), ()=> {
+        btnAdd.addEventListener('click', () => {
             const inputs = form.querySelectorAll('input');
-            for (let i = 0; i , inputs.length; I++) {
-              prepareCar[inputs[i].name] = inputs[i].value;
+            const prepareCar = {};
+
+            for (let i = 0; i < inputs.length; i++) {
+                prepareCar[inputs[i].name] = inputs[i].value;
             }
 
-            fetch(host, {method: 'post'})
-            .then((res => console.log('----add car', res)
-            .catch(err => console.error('---err', err))
+            fetch(host, {
+                method: 'post',
+                body: JSON.stringify(prepareCar),
+                headers: { "Content-Type": "application/json" },
+            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        alert('Данные добавлены')
+                    }
+                })
+                .catch(err => console.error('----err', err))
         })
 
         btn.addEventListener('click', () => {
-            fetch('http://localhost:3000/cars', { method: 'get' })
+            fetch(host, { method: 'get' })
                 .then(res => res.json())
                 .then(data => {
                     const html = data.reduce((acc, current) => {
@@ -52,8 +61,23 @@
                     app.innerHTML = `<ul>${html}</ul>`;
                 })
         })
-    </script>
 
+        const delBtns = document.querySelectorAll('delBtns');
+        console.log('---delBtns', delBtns);
+
+        if (delBtns.length) {
+            for (let i = 0; i< delBtns.length; i++) {
+                delBtns[i].addEventListener('click', () => {
+                    fetch(`${host}/${delBtns} {
+                        method: 'DELETE',
+                        body: JSON.stringify
+                    })
+                })
+            }
+            
+        }
+
+    </script>
 </body>
 
 </html>
